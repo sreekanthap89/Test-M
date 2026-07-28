@@ -132,18 +132,21 @@ def meta_ai_blend(signals_dict, df=None):
     names = list(signals_dict.keys())
 
     if df is not None and len(df) > 30:
-        recent_draw = set(df["numbers"].iloc[-1])
-        target_vec = np.zeros(POOL)
-        for b in recent_draw:
-            target_vec[b - 1] = 1.0
-
+        recent_draws = df["numbers"].iloc[-5:].tolist()
         ic_scores = []
         for i, p_vec in enumerate(matrix):
-            corr, _ = spearmanr(p_vec, target_vec)
-            base_ic = max(0.01, corr if not np.isnan(corr) else 0.05)
+            draw_corrs = []
+            for d_set in recent_draws:
+                t_vec = np.zeros(POOL)
+                for b in d_set:
+                    t_vec[b - 1] = 1.0
+                corr, _ = spearmanr(p_vec, t_vec)
+                draw_corrs.append(corr if not np.isnan(corr) else 0.05)
+            avg_corr = np.mean(draw_corrs)
+            base_ic = max(0.01, avg_corr)
 
-            if any(k in names[i] for k in ["BlackRock", "Cold/Due", "Kalman", "Hawkes", "EVT"]):
-                base_ic *= 2.0
+            if any(k in names[i] for k in ["BlackRock", "Quantum", "Kalman", "Hawkes", "EVT"]):
+                base_ic *= 2.5
             ic_scores.append(base_ic)
 
         meta_weights = np.array(ic_scores)

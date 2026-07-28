@@ -179,7 +179,7 @@ def metric_learning_graph_clustering(df, pool_size=POOL, n_clusters=4):
 
 # ── 3. STOCHASTIC JUMP-DIFFUSION POISSON ARRIVAL MODELING ────────────────────
 
-def stochastic_jump_diffusion_signal(df, pool_size=POOL, lambda_jump=0.15):
+def stochastic_jump_diffusion_signal(df, pool_size=POOL, lambda_jump=0.22):
     """
     Models continuous diffusion dS_t = mu*dt + sigma*dW_t combined with discrete
     Poisson arrivals J_t dN_t for dormant "cold" numbers returning to active state.
@@ -263,7 +263,7 @@ def hawkes_point_process_signal(df, pool_size=POOL, alpha=0.5, beta=0.15):
 
 # ── 6. EXTREME VALUE THEORY (EVT) - PEAK-OVER-THRESHOLD TAIL BOOSTER ─────────
 
-def evt_tail_hazard_signal(df, pool_size=POOL, threshold_quantile=0.75):
+def evt_tail_hazard_signal(df, pool_size=POOL, threshold_quantile=0.65):
     """
     Computes Pareto tail hazard probability for dormant balls exceeding threshold u.
     """

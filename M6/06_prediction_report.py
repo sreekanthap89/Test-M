@@ -35,9 +35,9 @@ N_MC       = 100_000
 SEED       = 42
 
 DEFAULT_WEIGHTS = {
-    "frequency": 0.35,
-    "cold":      0.10,
-    "markov":    0.35,
+    "frequency": 0.20,
+    "cold":      0.20,
+    "markov":    0.40,
     "pair_lift": 0.20,
 }
 

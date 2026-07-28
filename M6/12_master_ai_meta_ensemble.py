@@ -166,6 +166,42 @@ def meta_ai_blend(signals_dict, df=None):
 
 # ── MAIN EXECUTION & GRAND INFOGRAPHIC GENERATOR ──────────────────────────────
 
+def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_size: int = DRAW_SIZE) -> list[int]:
+    """
+    Selects the highest-probability ticket from top_pool constrained by:
+    1. Sum inside ideal range [95, 145]
+    2. Balanced 3 Low (<=19) / 3 High (>19) split
+    3. Multi-zone representation (at least 3 zones)
+    4. Anti-clustering filter (max 2 balls from top-3 over-saturated frequency balls)
+    """
+    top3_freq = set(np.argsort(prob_vector)[::-1][:3] + 1)
+    best_ticket = None
+    best_score = -1.0
+
+    for comb in itertools.combinations(top_pool, ticket_size):
+        comb_sum = sum(comb)
+        if not (95 <= comb_sum <= 145):
+            continue
+        n_low = sum(1 for n in comb if n <= 19)
+        n_high = ticket_size - n_low
+        if n_low != 3 or n_high != 3:
+            continue
+        zones = set(0 if n <= 10 else 1 if n <= 20 else 2 if n <= 30 else 3 for n in comb)
+        if len(zones) < 3:
+            continue
+        if sum(1 for n in comb if n in top3_freq) > 2:
+            continue
+
+        score = sum(prob_vector[n - 1] for n in comb)
+        if score > best_score:
+            best_score = score
+            best_ticket = sorted(comb)
+
+    if best_ticket is None:
+        best_ticket = sorted((np.argsort(prob_vector)[::-1][:ticket_size] + 1).tolist())
+    return best_ticket
+
+
 def main():
     print("============================================================")
     print("  STEP 12 — MASTER A.I. META-ENSEMBLE ENGINE (EASY6)")
@@ -183,8 +219,7 @@ def main():
     top_14_indices = np.argsort(meta_prob)[::-1][:14]
     top_14_numbers = sorted((top_14_indices + 1).tolist())
 
-    top_6_indices = np.argsort(meta_prob)[::-1][:DRAW_SIZE]
-    top_6_numbers = sorted((top_6_indices + 1).tolist())
+    top_6_numbers = select_optimal_ticket(top_14_numbers, meta_prob, ticket_size=DRAW_SIZE)
 
     print("\n============================================================")
     print("  GRAND UNIFIED PREDICTION RESULTS (EASY6)")

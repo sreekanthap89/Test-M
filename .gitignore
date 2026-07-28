@@ -1,15 +1,6 @@
 __pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environments
-venv/
-env/
-ENV/
-.venv/
-
-# IDEs and editors
+*.pyc
+.DS_Store
 .vscode/
 .idea/
-*.swp
-*.swo
+runs/

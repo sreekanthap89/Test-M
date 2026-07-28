@@ -1,0 +1,315 @@
+"""
+evaluate_suite.py — Automated Back-Test & Metric Evaluation Engine for MEGA7
+Runs the exact 4-metric evaluation specified in AGENT_DIRECTIVE.txt across
+a historical validation split (default: last 20 draws).
+
+Metrics measured:
+  1. Top-7 Ticket Match Rate (vs uniform baseline ~1.324)
+  2. Candidate Pool Inclusion Rate (Top-14 / Top-16)
+  3. Wheeling Win Guarantee Rate (Match-3+ achieved)
+  4. Probability Vector Rank Percentile (average rank of winning balls)
+"""
+
+import sys
+import time
+import numpy as np
+import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
+
+# Force UTF-8 and silence matplotlib
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+plt.show = lambda: None
+
+import importlib.util
+from sklearn.neural_network import MLPClassifier
+import math
+import itertools
+from utils import load_data, generate_covering_wheel
+
+CSV_FILE = "Emirates_Draw_MEGA7.csv"
+POOL = 37
+DRAW_SIZE = 7
+
+def get_rank_percentile(prob_vector: np.ndarray, actual_winning: list[int]) -> float:
+    """
+    Returns average rank percentile (0.0 = best possible rank #1, 100.0 = worst #37)
+    for the actual winning numbers within the probability vector.
+    """
+    # Sort indices in descending order of probability
+    sorted_indices = np.argsort(prob_vector)[::-1]
+    ranks = []
+    for num in actual_winning:
+        # Find 0-based rank of num-1
+        rank_idx = np.where(sorted_indices == (num - 1))[0][0]
+        # Convert to percentile: rank 0 -> 0%, rank 36 -> 100%
+        ranks.append((rank_idx / (POOL - 1)) * 100.0)
+    return float(np.mean(ranks))
+
+def run_evaluation(test_window: int = 20):
+    print("================================================================================")
+    print(f"  MEGA7 HISTORICAL SIMULATION & EVALUATION (Last {test_window} Draws)")
+    print("================================================================================")
+    
+    df = load_data(CSV_FILE)
+    n_draws = len(df)
+    test_start = max(30, n_draws - test_window)
+    actual_test_count = n_draws - test_start
+
+    # Import modules dynamically
+    spec6 = importlib.util.spec_from_file_location("mod6", "06_prediction_report.py")
+    mod6 = importlib.util.module_from_spec(spec6)
+    spec6.loader.exec_module(mod6)
+
+    spec7 = importlib.util.spec_from_file_location("mod7", "07_advanced_prediction.py")
+    mod7 = importlib.util.module_from_spec(spec7)
+    spec7.loader.exec_module(mod7)
+
+    spec8 = importlib.util.spec_from_file_location("mod8", "08_deep_learning_and_wheeling.py")
+    mod8 = importlib.util.module_from_spec(spec8)
+    spec8.loader.exec_module(mod8)
+
+    spec9 = importlib.util.spec_from_file_location("mod9", "09_ultra_stacking_ensemble.py")
+    mod9 = importlib.util.module_from_spec(spec9)
+    spec9.loader.exec_module(mod9)
+
+    spec10 = importlib.util.spec_from_file_location("mod10", "10_advanced_quantum_signal_engine.py")
+    mod10 = importlib.util.module_from_spec(spec10)
+    spec10.loader.exec_module(mod10)
+
+    spec11 = importlib.util.spec_from_file_location("mod11", "11_blackrock_quant_engine.py")
+    mod11 = importlib.util.module_from_spec(spec11)
+    spec11.loader.exec_module(mod11)
+
+    spec12 = importlib.util.spec_from_file_location("mod12", "12_master_ai_meta_ensemble.py")
+    mod12 = importlib.util.module_from_spec(spec12)
+    spec12.loader.exec_module(mod12)
+
+    # Tracking arrays
+    s6_top7_matches, s6_top14_matches, s6_ranks = [], [], []
+    s7_top7_matches, s7_top16_matches, s7_ranks = [], [], []
+    s8_top14_matches, s8_wheel_wins, s8_ranks = [], [], []
+    s9_top7_matches, s9_top14_matches, s9_wheel_wins, s9_ranks = [], [], [], []
+    s10_top7_matches, s10_top14_matches, s10_wheel_wins, s10_ranks = [], [], [], []
+    s11_top7_matches, s11_top14_matches, s11_wheel_wins, s11_ranks = [], [], [], []
+    s12_top7_matches, s12_top14_matches, s12_wheel_wins, s12_ranks = [], [], [], []
+
+    t0 = time.perf_counter()
+    print(f"Evaluating from draw index {test_start} to {n_draws - 1}...\n")
+
+    for i in range(test_start, n_draws):
+        train_df = df.iloc[:i].copy()
+        actual_draw = df.iloc[i]["numbers"]
+        actual_set = set(actual_draw)
+
+        # ── STEP 6: Multi-Signal Ensemble ─────────────────────────────────────
+        s_f = mod6.signal_frequency(train_df)
+        s_c = mod6.signal_cold(train_df)
+        s_m = mod6.signal_markov_zone(train_df)
+        s_p = mod6.signal_pair_lift(train_df)
+        comb6 = mod6.ensemble({"frequency": s_f, "cold": s_c, "markov": s_m, "pair_lift": s_p}, mod6.DEFAULT_WEIGHTS)
+        
+        top7_6  = set((np.argsort(comb6)[::-1][:7] + 1).tolist())
+        top14_6 = set((np.argsort(comb6)[::-1][:14] + 1).tolist())
+        
+        s6_top7_matches.append(len(top7_6 & actual_set))
+        s6_top14_matches.append(len(top14_6 & actual_set))
+        s6_ranks.append(get_rank_percentile(comb6, actual_draw))
+
+        # ── STEP 7: Advanced 4-Phase Ensemble ─────────────────────────────────
+        p1 = mod7.phase1_weighted_probability(train_df, recent_n=30)
+        p3 = mod7.phase3_number_markov(train_df)
+        p4_tuple = mod7.phase4_feedback_loop(train_df, p1, lookback=5)
+        p4_adj = p4_tuple[0]
+        p_cold = mod7.signal_cold_due(train_df, lookback=8)
+        
+        # Using current Step 7 weights
+        w7 = mod7.DEFAULT_WEIGHTS
+        comb7 = w7["w1"] * p1 + w7["w3"] * p3 + w7["w4"] * p4_adj + w7["wc"] * p_cold
+        comb7 /= comb7.sum()
+
+        top7_7  = set(mod7.diversity_select(comb7, k=7, candidate_pool=mod7.DEFAULT_POOL_SIZE))
+        top16_7 = set((np.argsort(comb7)[::-1][:mod7.DEFAULT_POOL_SIZE] + 1).tolist())
+
+        s7_top7_matches.append(len(top7_7 & actual_set))
+        s7_top16_matches.append(len(top16_7 & actual_set))
+        s7_ranks.append(get_rank_percentile(comb7, actual_draw))
+
+        # ── STEP 8: MLP Neural Network & Wheeling ─────────────────────────────
+        X, Y, bin_draws = mod8.prepare_ai_data(train_df, lookback=4, pool_size=POOL)
+        model = MLPClassifier(hidden_layer_sizes=(100, 50), alpha=0.0005, activation='relu', solver='adam', max_iter=500, random_state=42)
+        model.fit(X, Y)
+        
+        latest_x = bin_draws[-4:].flatten().reshape(1, -1)
+        probas = model.predict_proba(latest_x)[0]
+        if probas.sum() > 0:
+            probas = probas / probas.sum()
+        
+        top14_8_list = sorted((np.argsort(probas)[::-1][:14] + 1).tolist())
+        top14_8_set  = set(top14_8_list)
+        
+        m14_count = len(top14_8_set & actual_set)
+        s8_top14_matches.append(m14_count)
+        s8_ranks.append(get_rank_percentile(probas, actual_draw))
+        
+        # Check wheeling win guarantee
+        wheel_win = 0
+        if m14_count >= 3:
+            tickets = mod8.generate_covering_wheel(top14_8_list, ticket_size=7, match_guarantee=3)
+            for t in tickets:
+                if len(set(t) & actual_set) >= 3:
+                    wheel_win = 1
+                    break
+        s8_wheel_wins.append(wheel_win)
+
+        # ── STEP 9: Ultra Stacking Ensemble ───────────────────────────────────
+        X9, Y9, draws9 = mod9.prepare_stacking_dataset(train_df, lookback=10, pool_size=POOL)
+        stacker9 = mod9.StackingEnsembleSuite(random_state=42)
+        stacker9.fit(X9, Y9)
+
+        latest_feat9 = mod9.extract_features_for_draw(draws9, pool_size=POOL).reshape(1, -1)
+        probas9 = stacker9.predict_proba(latest_feat9)
+
+        top7_9_set   = set((np.argsort(probas9)[::-1][:7] + 1).tolist())
+        top14_9_list = sorted((np.argsort(probas9)[::-1][:14] + 1).tolist())
+        top14_9_set  = set(top14_9_list)
+
+        m14_count9 = len(top14_9_set & actual_set)
+        s9_top7_matches.append(len(top7_9_set & actual_set))
+        s9_top14_matches.append(m14_count9)
+        s9_ranks.append(get_rank_percentile(probas9, actual_draw))
+
+        wheel_win9 = 0
+        if m14_count9 >= 3:
+            tickets9 = mod9.generate_covering_wheel(top14_9_list, ticket_size=7, match_guarantee=3)
+            for t in tickets9:
+                if len(set(t) & actual_set) >= 3:
+                    wheel_win9 = 1
+                    break
+        s9_wheel_wins.append(wheel_win9)
+
+        # ── STEP 10: Quantum & Signal Science Engine ──────────────────────────
+
+        best_w10, sigs10 = mod10.genetic_optimize_weights(train_df, n_generations=10, pop_size=10)
+        probas10 = sum(best_w10[k] * sigs10[k] for k in range(4))
+        probas10 /= probas10.sum()
+
+        top7_10_set   = set((np.argsort(probas10)[::-1][:7] + 1).tolist())
+        top14_10_list = sorted((np.argsort(probas10)[::-1][:14] + 1).tolist())
+        top14_10_set  = set(top14_10_list)
+
+        m14_count10 = len(top14_10_set & actual_set)
+        s10_top7_matches.append(len(top7_10_set & actual_set))
+        s10_top14_matches.append(m14_count10)
+        s10_ranks.append(get_rank_percentile(probas10, actual_draw))
+
+        wheel_win10 = 0
+        if m14_count10 >= 3:
+            tickets10 = mod10.generate_covering_wheel(top14_10_list, ticket_size=7, match_guarantee=3)
+            for t in tickets10:
+                if len(set(t) & actual_set) >= 3:
+                    wheel_win10 = 1
+                    break
+        s10_wheel_wins.append(wheel_win10)
+
+        # ── STEP 11: BlackRock Institutional Quant Engine ─────────────────────
+        p_conf11, _, _ = mod11.quantile_regression_uncertainty(train_df, pool_size=POOL)
+        p_metric11, _, _ = mod11.metric_learning_graph_clustering(train_df, pool_size=POOL)
+        p_jump11 = mod11.stochastic_jump_diffusion_signal(train_df, pool_size=POOL)
+        probas11, _ = mod11.information_coefficient_fusion(train_df, [p_conf11, p_metric11, p_jump11])
+
+        top7_11_set   = set((np.argsort(probas11)[::-1][:7] + 1).tolist())
+        top14_11_list = sorted((np.argsort(probas11)[::-1][:14] + 1).tolist())
+        top14_11_set  = set(top14_11_list)
+
+        m14_count11 = len(top14_11_set & actual_set)
+        s11_top7_matches.append(len(top7_11_set & actual_set))
+        s11_top14_matches.append(m14_count11)
+        s11_ranks.append(get_rank_percentile(probas11, actual_draw))
+
+        wheel_win11 = 0
+        if m14_count11 >= 3:
+            tickets11 = mod11.generate_covering_wheel(top14_11_list, ticket_size=7, match_guarantee=3)
+            for t in tickets11:
+                if len(set(t) & actual_set) >= 3:
+                    wheel_win11 = 1
+                    break
+        s11_wheel_wins.append(wheel_win11)
+
+        # ── STEP 12: Master AI Meta-Ensemble ──────────────────────────────────
+        sigs_dict12 = mod12.harvest_all_signals(train_df)
+        probas12, _, _ = mod12.meta_ai_blend(sigs_dict12)
+
+        top7_12_set   = set((np.argsort(probas12)[::-1][:7] + 1).tolist())
+        top14_12_list = sorted((np.argsort(probas12)[::-1][:14] + 1).tolist())
+        top14_12_set  = set(top14_12_list)
+
+        m14_count12 = len(top14_12_set & actual_set)
+        s12_top7_matches.append(len(top7_12_set & actual_set))
+        s12_top14_matches.append(m14_count12)
+        s12_ranks.append(get_rank_percentile(probas12, actual_draw))
+
+        wheel_win12 = 0
+        if m14_count12 >= 3:
+            tickets12 = mod12.generate_covering_wheel(top14_12_list, ticket_size=7, match_guarantee=3)
+            for t in tickets12:
+                if len(set(t) & actual_set) >= 3:
+                    wheel_win12 = 1
+                    break
+        s12_wheel_wins.append(wheel_win12)
+
+    elapsed = time.perf_counter() - t0
+    print(f"[OK] Evaluation completed in {elapsed:.1f}s\n")
+
+    # ── PRINT METRICS REPORT ──────────────────────────────────────────────────
+    print("================================================================================")
+    print("  PERFORMANCE METRICS SUMMARY")
+    print("================================================================================")
+    print(f"  Random Uniform Baseline Top-7 Match Rate : 1.324 balls/draw")
+    print(f"  Random Uniform Baseline Rank Percentile  : 50.0% (middle rank)")
+    print("--------------------------------------------------------------------------------")
+    print(f"  [STEP 6 — Multi-Signal Ensemble]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s6_top7_matches):.3f} / 7")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s6_top14_matches):.3f} / 7 ({np.mean(s6_top14_matches)/7*100:.1f}%)")
+    print(f"    Probability Rank Percentile    : {np.mean(s6_ranks):.1f}% (lower is better)")
+    print()
+    print(f"  [STEP 7 — Advanced 4-Phase Markov + Feedback]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s7_top7_matches):.3f} / 7")
+    print(f"    Top-16 Pool Inclusion Avg      : {np.mean(s7_top16_matches):.3f} / 7 ({np.mean(s7_top16_matches)/7*100:.1f}%)")
+    print(f"    Probability Rank Percentile    : {np.mean(s7_ranks):.1f}% (lower is better)")
+    print()
+    print(f"  [STEP 8 — Deep Learning MLP & Wheeling]")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s8_top14_matches):.3f} / 7 ({np.mean(s8_top14_matches)/7*100:.1f}%)")
+    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s8_wheel_wins)*100:.1f}% of draws")
+    print(f"    Probability Rank Percentile    : {np.mean(s8_ranks):.1f}% (lower is better)")
+    print()
+    print(f"  [STEP 9 — Ultra Stacking ML Ensemble (XGBoost + LightGBM + RF + ET + MLP)]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s9_top7_matches):.3f} / 7")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s9_top14_matches):.3f} / 7 ({np.mean(s9_top14_matches)/7*100:.1f}%)")
+    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s9_wheel_wins)*100:.1f}% of draws")
+    print(f"    Probability Rank Percentile    : {np.mean(s9_ranks):.1f}% (lower is better)")
+    print()
+    print(f"  [STEP 10 — Advanced Quantum & Signal Science Engine]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s10_top7_matches):.3f} / 7")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s10_top14_matches):.3f} / 7 ({np.mean(s10_top14_matches)/7*100:.1f}%)")
+    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s10_wheel_wins)*100:.1f}% of draws")
+    print(f"    Probability Rank Percentile    : {np.mean(s10_ranks):.1f}% (lower is better)")
+    print()
+    print(f"  [STEP 11 — BlackRock Institutional Quant Analytics Engine]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s11_top7_matches):.3f} / 7")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s11_top14_matches):.3f} / 7 ({np.mean(s11_top14_matches)/7*100:.1f}%)")
+    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s11_wheel_wins)*100:.1f}% of draws")
+    print(f"    Probability Rank Percentile    : {np.mean(s11_ranks):.1f}% (lower is better)")
+    print()
+    print(f"  [STEP 12 — Master AI Meta-Ensemble (Steps 1-11 Fused)]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s12_top7_matches):.3f} / 7")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s12_top14_matches):.3f} / 7 ({np.mean(s12_top14_matches)/7*100:.1f}%)")
+    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s12_wheel_wins)*100:.1f}% of draws")
+    print(f"    Probability Rank Percentile    : {np.mean(s12_ranks):.1f}% (lower is better)")
+    print("================================================================================")
+
+if __name__ == "__main__":
+    run_evaluation(test_window=20)

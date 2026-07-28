@@ -1,0 +1,70 @@
+# CHANGELOG — Emirates Draw MEGA7 Suite Adaptation
+> Last updated: 2026-07-25
+
+This document records the architectural and mathematical changes made to migrate the EASY6 prediction pipeline to the **Emirates Draw MEGA7** format (`M7/` directory).
+
+---
+
+## 1. Core Mathematical Parameter Migration
+
+### EASY6 vs. MEGA7 Parameters
+- **Pool Size (`POOL`):** Changed from `40` to `37`.
+- **Draw Size (`DRAW_SIZE` / `DRAWS_PER`):** Changed from `6` to `7`.
+- **Winning Number Columns (`WIN_COLS`):** Expanded from 6 columns to `["Winning Number 1", "2", "3", "4", "5", "6", "7"]`.
+- **Dataset File:** Standardized to `Emirates_Draw_MEGA7.csv` (177 historical draws).
+
+---
+
+## 2. Step-by-Step Architectural Adjustments
+
+### Step 1: Data Explorer (`01_data_explorer.py`)
+- **Zone Definitions:** Re-sliced into 4 zones: Z1 (1–10), Z2 (11–20), Z3 (21–30), and Z4 (31–37). Note that Z4 contains only 7 numbers compared to 10 in other zones.
+- **Sum Statistics:** Updated expected theoretical sum to $\sim 133$ (from 123 in EASY6), reflecting 7 drawn balls from 37.
+
+### Step 2: Frequency Analysis (`02_frequency_analysis.py`)
+- **Expected Frequency Formula:** Updated theoretical expectation per draw:
+  $$\text{Expected} = \frac{N_{\text{draws}} \times 7}{37}$$
+- **Chi-Squared Degrees of Freedom:** Adjusted to $df = 37 - 1 = 36$.
+- **Statistical Claim:** Maintained precise wording distinguishing uniform distribution from true randomness.
+
+### Step 3: Probability Distributions (`03_probability_distributions.py`)
+- **Pairwise Combinations:** Increased pairs per draw from $C(6,2) = 15$ to $C(7,2) = 21$.
+- **Total Possible Pairs:** Updated from $C(40,2) = 780$ to $C(37,2) = 666$.
+- **Pair Co-occurrence Baseline:**
+  $$P(\text{pair}) = \frac{C(35,5)}{C(37,7)} = \frac{21}{666} \approx 0.0315$$
+
+### Step 4: Monte Carlo Simulation (`04_monte_carlo_simulation.py`)
+- **Match Score Distribution:** Expanded match tracking range from $0\dots6$ to $0\dots7$.
+- **Theoretical Mean Matches:** Updated to:
+  $$\text{Mean} = 7 \times \left(\frac{7}{37}\right) = \frac{49}{37} \approx 1.3243$$
+
+### Step 5: Markov Chain Transition Modelling (`05_markov_chain.py`)
+- **Sum Bands:** Re-calibrated around mean 133:
+  - Low: $< 110$
+  - Med-Low: $110 \dots 134$
+  - Med-High: $135 \dots 159$
+  - High: $\ge 160$
+- **Number-Level Baseline Repeat Probability:** Updated to $\frac{7}{37} \approx 18.92\%$.
+
+### Step 6: Combined Prediction Report (`06_prediction_report.py`)
+- **Ensemble Ticket Size:** Changed suggested ticket size from top-6 to top-7 candidates.
+- **Pair Lift Expected Co-occurrences:** Adjusted formula for 7-ball anchor comparisons.
+- **Back-test Match Range:** Expanded to track $0\dots7$ matches with random baseline $\approx 1.3243$.
+
+### Step 7: Advanced Prediction Framework (`07_advanced_prediction.py`)
+- **Number-Level Markov Matrix:** Expanded/contracted to a full $37 \times 37$ transition matrix.
+- **Feedback Loop Thresholds:**
+  - High/Low split line set at $> 18$ (18 low numbers, 19 high numbers).
+  - Imbalance trigger threshold adjusted to $> 4.0$ balls per draw (out of 7).
+- **Diversity Filter & Sum Validation:** Configured to select 7 balls from a candidate pool of 16, enforcing 3-zone coverage and anti-clustering constraints.
+
+### Step 8: Deep Learning & Wheeling System (`08_deep_learning_and_wheeling.py`)
+- **MLP Architecture:** Input layer sized to $37 \times \text{lookback}$ (111 nodes for lookback=3), output layer sized to 37 multi-label probability classes.
+- **Greedy Set Cover Wheeling:** 
+  - Candidate pool size set to top 14 AI predictions.
+  - Ticket size generated: $k = 7$.
+  - Guarantee target: 3-if-3 win guarantee (covers all $C(14,3) = 364$ requirements in minimal 7-number tickets).
+
+### Master Runner (`run_all.py`)
+- **Shared Session Management:** Integrated `utils.set_session_folder` to route all 8 steps to a single `runs/YYYY-MM-DD_HH-MM-SS/` directory.
+- **Result Harvesting:** Updated to harvest and print top-7 tickets across Phase 1, Phase 2, Phase 3, and Wheeling.

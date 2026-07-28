@@ -1,0 +1,53 @@
+# Agent Directive: Historical Simulation & Logic Tuning Loop (MEGA7 Suite)
+
+## Objective
+Iteratively back-test, evaluate, and tune the mathematical logic, ensemble weighting heuristics, and hyperparameters of the Emirates Draw MEGA7 prediction suite against historical known draw records to maximize predictive accuracy and candidate inclusion rates without overfitting.
+
+## Environment & Constraints
+- Scope Constraint: Modify and refine code ONLY inside the d:\DEV\PY\ESY6\M7\ directory. Do not alter root project files or datasets.
+- Execution Budget: Maximum 10 tuning iterations.
+- Primary Tuning Targets:
+  * 06_prediction_report.py (Multi-signal ensemble weights: Frequency, Markov, Pair-Lift, Uniform; back-test window).
+  * 07_advanced_prediction.py (37x37 number-level Markov transitions, feedback loop streak multipliers, diversity filter candidate pool size k=16).
+  * 08_deep_learning_and_wheeling.py (MLP neural network lookback windows, hidden layer architecture, candidate pool selection for greedy set cover wheeling).
+- Historical Dataset: Emirates_Draw_MEGA7.csv (37-ball pool, 7 balls drawn per draw).
+- If needed find details from internet and fix it 
+
+================================================================================
+## Core Loop Cycle
+================================================================================
+
+For each iteration, execute the following 5-step cycle:
+
+### 1. SIMULATE PAST SCENARIO (Rolling Back-Test)
+- Select a historical validation split from Emirates_Draw_MEGA7.csv (e.g., the 20 most recent historical draws).
+- For each target test draw T in the validation set, slice the dataset to include ONLY draws from index 0 up to T-1 (treating draw T as strictly unseen future data).
+- Execute the prediction logic (06_prediction_report.py, 07_advanced_prediction.py, or 08_deep_learning_and_wheeling.py) using only the truncated historical training data.
+
+### 2. COMPARE & MEASURE (Lottery-Specific Metrics)
+Compare the algorithm's predicted outputs against the actual 7 winning numbers of draw T and compute exact performance metrics:
+- Top-7 Ticket Match Rate: Exactly how many balls in our predicted 7-number ticket matched the actual draw outcome (compare against the random uniform baseline of ~1.324 matches per draw).
+- Candidate Pool Inclusion Rate (Top-14 / Top-16): How many of the 7 winning balls were captured inside our broader candidate pool before diversity filtering or wheeling (critical for wheeling success).
+- Wheeling Win Guarantee Rate: Evaluate whether the generated 7-number wheeled tickets successfully achieved at least one Match-3 or Match-4 winning ticket.
+- Probability Vector Rank Percentile: Calculate the average ranking of the 7 winning balls within the model's output probability vector (lower average rank index = stronger predictive signal).
+
+### 3. DIAGNOSE DISCREPANCY & ROOT CAUSE ANALYSIS
+- Trace step-by-step why winning numbers were missed or ranked too low:
+  * Was an actual winning number heavily penalized by the Markov transition matrix because of a rare consecutive transition?
+  * Did the feedback loop over-correct for a sum streak or zone dominance?
+  * Did the diversity filter or IQR sum validator reject a candidate ticket that matched the actual winning cluster?
+  * Did the MLP neural network overfit to recent draws due to too large a lookback window?
+- Document the exact parameter set tested, the root cause of any performance bottleneck, and the resulting quantitative metrics in .loop_memory.txt.
+
+### 4. REFINE LOGIC & HYPERPARAMETER TUNING
+Apply surgical adjustments to formulas, conditionals, or weighting heuristics to improve signal capture without breaking general stability:
+- Ensemble Re-weighting: Tune the relative weights between Phase 1 (Historical Frequency), Phase 3 (Markov Transitions), Phase 4 (Feedback Loop Adjustments), and Cold/Due signals.
+- Feedback Loop Multipliers: Calibrate the dampening/boosting ratios applied during sum streaks (>160 or <110), High/Low imbalances (>18), and Zone dominance (Z1-Z4).
+- Wheeling & A.I. Tuning: Adjust the MLP classifier regularization (alpha), learning rate, hidden layer nodes, or expand/contract the wheeling candidate pool (e.g., testing 14 vs. 15 vs. 16 numbers).
+
+### 5. VERIFY & VALIDATE
+- Run the full suite verification command:
+    python run_all.py
+  (Or execute targeted back-tests via python 06_prediction_report.py and python 07_advanced_prediction.py).
+- Success Condition: If the average match rate across the validation set improves, candidate pool inclusion increases, and all 8 script steps execute without errors or chart failures: STOP, document the winning parameter configuration in .loop_memory.txt, and finalize the patch.
+- Reversion Condition: If variance persists, average match rates drop below baseline, or overfitting occurs: Revert the code tweak immediately, log the negative result in .loop_memory.txt to prevent repetition, and proceed to the next iteration.

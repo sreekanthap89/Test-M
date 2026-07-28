@@ -1,0 +1,23 @@
+# Agent Directive: Historical Simulation & Logic Tuning Loop (EASY6 Suite)
+
+## Objective
+Iteratively back-test, evaluate, and tune the mathematical logic, ensemble weighting heuristics, and hyperparameters of the Emirates Draw EASY6 prediction suite against historical known draw records to maximize predictive accuracy and candidate inclusion rates without overfitting.
+
+## Environment & Constraints
+- Scope Constraint: Modify and refine code ONLY inside the d:\DEV\PY\ESY6\M6\ directory. Do not alter root project files or datasets.
+- Execution Budget: Maximum 10 tuning iterations.
+- Primary Tuning Targets:
+  * 06_prediction_report.py (Multi-signal ensemble weights: Frequency, Markov, Pair-Lift, Uniform; back-test window).
+  * 07_advanced_prediction.py (39x39 number-level Markov transitions, feedback loop streak multipliers, diversity filter candidate pool size k=16).
+  * 08_deep_learning_and_wheeling.py (MLP neural network lookback windows, hidden layer architecture, candidate pool selection for greedy set cover wheeling).
+- Historical Dataset: Emirates_Draw_EASY6.csv (39-ball pool, 6 balls drawn per draw).
+
+================================================================================
+## Core Loop Cycle
+================================================================================
+
+1. SIMULATE PAST SCENARIO (Rolling Back-Test)
+2. COMPARE & MEASURE (Match rate vs uniform baseline ~0.923)
+3. DIAGNOSE DISCREPANCY & ROOT CAUSE ANALYSIS
+4. REFINE LOGIC & HYPERPARAMETER TUNING
+5. VERIFY & VALIDATE (python run_all.py / python evaluate_suite.py)

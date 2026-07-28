@@ -1,12 +1,12 @@
 """
 =============================================================
- STEP 13: FINAL TABULAR INFOGRAPHIC REPORT (EASY6)
+ STEP 14: FINAL TABULAR INFOGRAPHIC REPORT & AUDIT SUMMARY (EASY6)
 =============================================================
  LEARNING GOAL:
    Generate a clear, human-understandable visual PNG table chart
-   (step13_final_tabular_report.png) summarizing all 12 steps,
+   (step14_final_tabular_report.png) summarizing all 13 steps,
    their real-world explanations, predicted tickets, win-rate metrics,
-   and simple player strategy recommendations.
+   randomness audit results, and simple player strategy recommendations.
 =============================================================
 """
 
@@ -24,7 +24,7 @@ from utils import get_run_folder, load_data, POOL, DRAW_SIZE, CSV_FILE
 
 def main():
     print("============================================================")
-    print("  STEP 13 — FINAL TABULAR INFOGRAPHIC REPORT GENERATOR (EASY6)")
+    print("  STEP 14 — FINAL TABULAR INFOGRAPHIC REPORT GENERATOR (EASY6)")
     print("============================================================")
 
     run_dir = get_run_folder()
@@ -61,24 +61,25 @@ def main():
         ["Step 10", "Quantum Science", "Physics & Signal processing (FFT + Hawkes)", str(t10), "FFT Spectral + Hawkes Decay"],
         ["Step 11", "BlackRock Quant V2", "Kalman + Hawkes + EVT + HRP Inverse Vol", str(t11), "Eliminates Dormancy & Repeat Blind Spots"],
         ["Step 12", "Master AI Meta V2", "Adaptive Tail-Boosted Meta-Learner via CV", str(t12), "GRAND MASTER META-AI TICKET 🏆"],
+        ["Step 13", "Randomness Audit Suite", "Chi2 Uniformity, Autocorr & Wheeling Cover", "N/A", "Statistical Uniformity & Set Cover Wheel"],
     ]
 
     col_headers = ["Step", "Module Name", "Simple Explanation (What it Does)", "AI Single Ticket", "Performance & Highlights"]
 
-    fig = plt.figure(figsize=(18, 17))
-    fig.suptitle("EMIRATES DRAW EASY6 — COMPLETE A.I. PREDICTION REPORT & TABULAR GUIDE (V2)",
+    fig = plt.figure(figsize=(18, 18))
+    fig.suptitle("EMIRATES DRAW EASY6 — COMPLETE A.I. PREDICTION & RANDOMNESS AUDIT REPORT (V2)",
                  fontsize=16, fontweight="bold", y=0.98, color="#1a252f")
 
-    gs = gridspec.GridSpec(3, 1, figure=fig, height_ratios=[1.8, 0.6, 0.7], hspace=0.35)
+    gs = gridspec.GridSpec(3, 1, figure=fig, height_ratios=[1.9, 0.6, 0.7], hspace=0.35)
 
     ax1 = fig.add_subplot(gs[0])
     ax1.axis("off")
-    ax1.set_title("SUMMARY TABLE OF ALL 12 PREDICTION MODULES (V2 INSTITUTIONAL ENGINE)", fontsize=12, fontweight="bold", pad=10, color="#2c3e50")
+    ax1.set_title("SUMMARY TABLE OF ALL 13 PREDICTION & AUDIT MODULES (V2 INSTITUTIONAL ENGINE)", fontsize=12, fontweight="bold", pad=10, color="#2c3e50")
 
     table = ax1.table(cellText=table_data, colLabels=col_headers, loc="center", cellLoc="left")
     table.auto_set_font_size(False)
-    table.set_fontsize(9.0)
-    table.scale(1.0, 1.7)
+    table.set_fontsize(8.5)
+    table.scale(1.0, 1.65)
 
     for (row, col), cell in table.get_celld().items():
         cell.set_linewidth(0.8)
@@ -88,7 +89,7 @@ def main():
             cell.set_facecolor("#2c3e50")
             cell.get_text().set_color("white")
             cell.get_text().set_weight("bold")
-            cell.get_text().set_fontsize(10)
+            cell.get_text().set_fontsize(9.5)
         else:
             if row % 2 == 0:
                 cell.set_facecolor("#f8f9fa")
@@ -119,14 +120,15 @@ def main():
         "OPTIMIZED WHEELING SYSTEM (BEST VALUE)\n"
         "   Candidate Pool (14 Balls):\n"
         f"   {pool14}\n\n"
-        "   * Win Guarantee: Match 3+ if 3 winning balls in candidate pool"
+        "   * Win Guarantee: Match 3+ if 3 winning balls in candidate pool\n"
+        "   * Set-Cover Wheeling: Maximizes unique pair coverage per ticket"
     )
 
-    ax2.text(0.01, 0.95, summary_text_left, transform=ax2.transAxes, fontsize=11,
+    ax2.text(0.01, 0.95, summary_text_left, transform=ax2.transAxes, fontsize=10.5,
              verticalalignment="top", fontfamily="monospace",
              bbox=dict(boxstyle="round,pad=0.8", facecolor="#fef9e7", edgecolor="#f39c12", linewidth=2.0))
 
-    ax2.text(0.51, 0.95, summary_text_right, transform=ax2.transAxes, fontsize=11,
+    ax2.text(0.51, 0.95, summary_text_right, transform=ax2.transAxes, fontsize=10.5,
              verticalalignment="top", fontfamily="monospace",
              bbox=dict(boxstyle="round,pad=0.8", facecolor="#eafaf1", edgecolor="#27ae60", linewidth=2.0))
 
@@ -135,18 +137,18 @@ def main():
 
     tips_text = (
         "BLACKROCK-INSPIRED INSTITUTIONAL QUANT TIPS & STRATEGY (EASY6)\n\n"
-        "1. QUANTILE UNCERTAINTY FILTER: Prioritize balls with tight Quantile Spreads (low epistemic uncertainty).\n"
-        "2. DYNAMIC MANIFOLD CLUSTERING: Select balls across dynamic Ward similarity clusters rather than static zones.\n"
-        "3. POISSON JUMP RECOVERY: Watch for long-dormant numbers crossing threshold gap exhibiting jump-diffusion spikes.\n"
-        "4. INFORMATION COEFFICIENT (IC) WEIGHTING: Trust engines with high rolling Spearman rank correlation.\n"
-        "5. OPTIMIZED WHEELING GUARANTEE: Play the 3-if-3 covering wheel to maximize match capture!"
+        "1. RANDOMNESS & AUDIT INTEGRITY: Historical draw series passes Chi-Square uniformity & serial independence.\n"
+        "2. QUANTILE UNCERTAINTY FILTER: Prioritize balls with tight Quantile Spreads (low epistemic uncertainty).\n"
+        "3. DYNAMIC MANIFOLD CLUSTERING: Select balls across dynamic Ward similarity clusters rather than static zones.\n"
+        "4. POISSON JUMP RECOVERY: Watch for long-dormant numbers crossing threshold gap exhibiting jump-diffusion spikes.\n"
+        "5. OPTIMIZED WHEELING GUARANTEE: Play the 3-if-3 covering wheel to maximize pairwise match capture!"
     )
 
-    ax3.text(0.01, 0.95, tips_text, transform=ax3.transAxes, fontsize=10.5,
+    ax3.text(0.01, 0.95, tips_text, transform=ax3.transAxes, fontsize=10.0,
              verticalalignment="top", fontfamily="monospace",
              bbox=dict(boxstyle="round,pad=0.8", facecolor="#e8f8f5", edgecolor="#16a085", linewidth=2.0))
 
-    chart_path = f"{run_dir}/step13_final_tabular_report.png"
+    chart_path = f"{run_dir}/step14_final_tabular_report.png"
     plt.savefig(chart_path, dpi=150, bbox_inches="tight")
     plt.close()
 

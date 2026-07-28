@@ -46,7 +46,8 @@ STEPS = [
     ("Step 10 — Quantum Science Engine",  "10_advanced_quantum_signal_engine.py"),
     ("Step 11 — BlackRock Quant Engine",  "11_blackrock_quant_engine.py"),
     ("Step 12 — Master AI Meta-Ensemble", "12_master_ai_meta_ensemble.py"),
-    ("Step 13 — Final Tabular Infographic Report", "13_final_tabular_report_chart.py"),
+    ("Step 13 — Randomness Audit & Wheeling Suite", "13_randomness_audit_and_wheeling.py"),
+    ("Step 14 — Final Tabular Infographic Report", "14_final_tabular_report_chart.py"),
 ]
 
 

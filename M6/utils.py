@@ -72,12 +72,16 @@ def load_data(path: str = CSV_FILE) -> pd.DataFrame:
 
 def generate_covering_wheel(candidates: list[int],
                             ticket_size: int = 6,
-                            match_guarantee: int = 3) -> list[tuple]:
+                            match_guarantee: int = 3,
+                            max_candidates: int = 14) -> list[tuple]:
     """
     Greedy Set Cover algorithm to generate a mathematical wheeling system.
-    Returns the minimum set of tickets to guarantee `match_guarantee`
-    if `match_guarantee` winning numbers are in the `candidates` pool.
+    Safely caps candidate pool to max_candidates (default 14) to prevent 
+    combinatorial explosion (e.g. C(39, 6) = 3.26M tickets consuming GBs of RAM).
     """
+    if len(candidates) > max_candidates:
+        candidates = candidates[:max_candidates]
+
     subsets_to_cover = set(itertools.combinations(candidates, match_guarantee))
     all_possible_tickets = list(itertools.combinations(candidates, ticket_size))
 

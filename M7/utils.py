@@ -97,7 +97,22 @@ def generate_covering_wheel(candidates: list[int],
 
         chosen_tickets.append(best_ticket)
         uncovered -= newly_covered
-        all_possible_tickets.remove(best_ticket)
-
     return chosen_tickets
+
+
+# ── Structured JSON & Persistence Export ─────────────────────────────────────
+
+import json
+
+def save_run_data(data: dict, filename: str = "predictions_summary.json", folder: str | None = None) -> str:
+    """
+    Saves predictions, probabilities, candidate pools, and model parameters
+    into a structured JSON file inside the timestamped run directory.
+    """
+    out_dir = folder if folder else get_run_folder()
+    out_path = os.path.join(out_dir, filename)
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, default=str)
+    return out_path
+
 

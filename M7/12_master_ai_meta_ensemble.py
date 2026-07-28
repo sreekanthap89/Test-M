@@ -18,6 +18,7 @@ import os
 import sys
 import math
 import warnings
+from datetime import datetime
 import itertools
 import importlib.util
 import pandas as pd
@@ -30,7 +31,7 @@ from scipy.stats import spearmanr
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 warnings.filterwarnings("ignore")
-from utils import get_run_folder, load_data, generate_covering_wheel, POOL, DRAW_SIZE
+from utils import get_run_folder, load_data, generate_covering_wheel, save_run_data, POOL, DRAW_SIZE
 
 CSV_FILE  = "Emirates_Draw_MEGA7.csv"
 WIN_COLS  = ["Winning Number 1", "2", "3", "4", "5", "6", "7"]
@@ -277,6 +278,23 @@ def main():
     plt.close()
 
     print(f"\n[OK] Grand Infographic Chart saved -> {chart_path}")
+
+    # Structured JSON Export
+    summary_data = {
+        "timestamp": datetime.now().isoformat(),
+        "game": "MEGA7",
+        "last_historical_draw": {
+            "date": str(df["Date"].iloc[-1].date()),
+            "numbers": [int(n) for n in df["numbers"].iloc[-1]]
+        },
+        "master_ai_top_7_ticket": [int(n) for n in top_7_numbers],
+        "candidate_pool_14_balls": [int(n) for n in top_14_numbers],
+        "wheeled_tickets_count": len(tickets),
+        "wheeled_tickets": [[int(n) for n in t] for t in tickets],
+        "master_probability_vector": {int(i+1): round(float(p), 6) for i, p in enumerate(meta_prob)}
+    }
+    json_path = save_run_data(summary_data, filename="predictions_summary.json", folder=run_dir)
+    print(f"[OK] Structured JSON results saved -> {json_path}")
 
 
 if __name__ == "__main__":

@@ -75,6 +75,12 @@ def run_evaluation(test_window: int = 20):
     spec12 = importlib.util.spec_from_file_location("mod12", "12_master_ai_meta_ensemble.py")
     mod12 = importlib.util.module_from_spec(spec12); spec12.loader.exec_module(mod12)
 
+    from enhanced_features_and_metrics import (
+        chi_squared_fit_test,
+        calculate_pair_triple_match_rate,
+        calculate_expected_wheel_guarantee
+    )
+
     s6_top6_matches, s6_top14_matches, s6_ranks = [], [], []
     s7_top6_matches, s7_top16_matches, s7_ranks = [], [], []
     s8_top14_matches, s8_wheel_wins, s8_ranks = [], [], []
@@ -82,6 +88,7 @@ def run_evaluation(test_window: int = 20):
     s10_top6_matches, s10_top14_matches, s10_wheel_wins, s10_ranks = [], [], [], []
     s11_top6_matches, s11_top14_matches, s11_wheel_wins, s11_ranks = [], [], [], []
     s12_top6_matches, s12_top14_matches, s12_wheel_wins, s12_ranks = [], [], [], []
+    s12_chi2_scores, s12_pair_rates, s12_triple_rates = [], [], []
 
     t0 = time.perf_counter()
     print(f"Evaluating from draw index {test_start} to {n_draws - 1}...\n")
@@ -240,6 +247,13 @@ def run_evaluation(test_window: int = 20):
         s12_top14_matches.append(m14_count12)
         s12_ranks.append(get_rank_percentile(probas12, actual_draw))
 
+        # Advanced Validation Depth metrics for Step 12
+        chi2_res = chi_squared_fit_test(sorted(list(top6_12_set)), train_df)
+        match_rates = calculate_pair_triple_match_rate(top6_12_set, actual_draw)
+        s12_chi2_scores.append(chi2_res['statistical_fit_score'])
+        s12_pair_rates.append(match_rates['pair_match_rate_pct'])
+        s12_triple_rates.append(match_rates['triple_match_rate_pct'])
+
         wheel_win12 = 0
         if m14_count12 >= 3:
             tickets12 = mod12.generate_covering_wheel(top14_12_list, ticket_size=DRAW_SIZE, match_guarantee=3)
@@ -292,11 +306,14 @@ def run_evaluation(test_window: int = 20):
     print(f"   - Wheeling Win Guarantee Rate    : {np.mean(s11_wheel_wins)*100:.1f}%")
     print(f"   - Average Rank Percentile        : {np.mean(s11_ranks):.1f}%\n")
 
-    print(f"7. STEP 12 (Master AI Meta-Ensemble V2):")
+    print(f"7. STEP 12 (Master AI Meta-Ensemble V2 + Enhancements):")
     print(f"   - Top-6 Single Ticket Match Rate : {np.mean(s12_top6_matches):.3f} / 6")
     print(f"   - Top-14 Candidate Pool Inclusion: {np.mean(s12_top14_matches):.3f} / 6 ({np.mean(s12_top14_matches)/6*100:.1f}%)")
     print(f"   - Wheeling Win Guarantee Rate    : {np.mean(s12_wheel_wins)*100:.1f}%  ★ RECORD WIN RATE ★")
-    print(f"   - Average Rank Percentile        : {np.mean(s12_ranks):.1f}%\n")
+    print(f"   - Average Rank Percentile        : {np.mean(s12_ranks):.1f}%")
+    print(f"   - Structural Chi2 Fit Score      : {np.mean(s12_chi2_scores):.1f} / 100")
+    print(f"   - Avg Pair Match Rate (C(6,2))   : {np.mean(s12_pair_rates):.2f}%")
+    print(f"   - Avg Triple Match Rate (C(6,3)) : {np.mean(s12_triple_rates):.2f}%\n")
 
     print("================================================================================")
 

@@ -30,15 +30,26 @@ import sys, warnings
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 warnings.filterwarnings("ignore")
 from utils import get_run_folder, load_data, CSV_FILE, WIN_COLS, POOL, DRAW_SIZE
+from enhanced_features_and_metrics import (
+    signal_gap_analysis,
+    signal_consecutive_streaks,
+    signal_hot_cold_momentum,
+    optimize_ensemble_weights,
+    chi_squared_fit_test,
+    calculate_pair_triple_match_rate
+)
 
 N_MC       = 100_000
 SEED       = 42
 
 DEFAULT_WEIGHTS = {
-    "frequency": 0.20,
-    "cold":      0.20,
-    "markov":    0.40,
-    "pair_lift": 0.20,
+    "frequency":    0.25,
+    "cold":         0.10,
+    "markov":       0.20,
+    "pair_lift":    0.15,
+    "gap_analysis": 0.10,
+    "streaks":      0.10,
+    "momentum":     0.10,
 }
 
 
@@ -123,12 +134,14 @@ def signal_pair_lift(df) -> np.ndarray:
     return scores / s if s > 0 else np.ones(POOL) / POOL
 
 
-def ensemble(signals: dict, weights: dict) -> np.ndarray:
+def ensemble(signals: dict, weights: dict = None) -> np.ndarray:
+    if weights is None:
+        weights = DEFAULT_WEIGHTS
     combined = np.zeros(POOL)
     for key, weight in weights.items():
         if key in signals:
             combined += weight * signals[key]
-    return combined / combined.sum()
+    return combined / combined.sum() if combined.sum() > 0 else np.ones(POOL) / POOL
 
 
 def print_section(title):
@@ -153,15 +166,28 @@ def main():
     sig_cold   = signal_cold(df, lookback=5)
     sig_markov = signal_markov_zone(df)
     sig_pair   = signal_pair_lift(df)
+    sig_gap    = signal_gap_analysis(df)
+    sig_streak = signal_consecutive_streaks(df)
+    sig_mom    = signal_hot_cold_momentum(df)
 
     signals = {
-        "frequency": sig_freq,
-        "cold":      sig_cold,
-        "markov":    sig_markov,
-        "pair_lift": sig_pair,
+        "frequency":    sig_freq,
+        "cold":         sig_cold,
+        "markov":       sig_markov,
+        "pair_lift":    sig_pair,
+        "gap_analysis": sig_gap,
+        "streaks":      sig_streak,
+        "momentum":     sig_mom,
     }
 
-    prob_vector = ensemble(signals, DEFAULT_WEIGHTS)
+    # Perform automated weight optimization
+    opt_w_arr = optimize_ensemble_weights(df, signals, validation_window=10)
+    opt_weights = {k: opt_w_arr[idx] for idx, k in enumerate(signals.keys())}
+    print("\n  [+] Dynamic Weight Optimization Complete.")
+    for k, v in opt_weights.items():
+        print(f"      • Signal '{k:<12}': weight = {v:.4f}")
+
+    prob_vector = ensemble(signals, opt_weights)
 
     # ── MONTE CARLO COMBINED SIMULATION ───────────────────────────────────────
     print_section(f"ENSEMBLE MONTE CARLO ({N_MC:,} DRAWS)")

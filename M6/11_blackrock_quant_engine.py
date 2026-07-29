@@ -303,7 +303,7 @@ def evt_tail_hazard_signal(df, pool_size=POOL, threshold_quantile=0.65):
 def information_coefficient_fusion(df, signals_list):
     """
     Computes rolling Information Coefficients (IC = Spearman Rank Correlation)
-    and Inverse Volatility (Hierarchical Risk Parity) for each quant signal vector.
+    and Information Ratio (IR = IC * sqrt(Breadth)) for each quant signal vector.
     """
     recent_draw = set(df["numbers"].iloc[-1])
     target_vector = np.zeros(POOL)
@@ -312,6 +312,8 @@ def information_coefficient_fusion(df, signals_list):
 
     ic_scores = []
     inv_vols = []
+    breadth = len(signals_list)  # Number of independent signal sources (Breadth)
+
     for sig in signals_list:
         corr, _ = spearmanr(sig, target_vector)
         ic_val = max(0.01, corr if not np.isnan(corr) else 0.05)
@@ -319,7 +321,9 @@ def information_coefficient_fusion(df, signals_list):
         var_sig = np.var(sig)
         inv_vols.append(1.0 / max(1e-6, var_sig))
 
-    raw_weights = np.array(ic_scores) * np.sqrt(np.array(inv_vols))
+    # Calculate Information Ratio: IR = IC * sqrt(Breadth)
+    ir_scores = np.array(ic_scores) * math.sqrt(breadth)
+    raw_weights = ir_scores * np.sqrt(np.array(inv_vols))
     ic_weights = raw_weights / raw_weights.sum()
 
     fused_prob = sum(ic_weights[i] * signals_list[i] for i in range(len(signals_list)))

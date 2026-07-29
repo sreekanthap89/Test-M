@@ -32,15 +32,26 @@ from scipy.stats import spearmanr
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 warnings.filterwarnings("ignore")
 from utils import get_run_folder, load_data, generate_covering_wheel, save_run_data, CSV_FILE, WIN_COLS, POOL, DRAW_SIZE
+from enhanced_features_and_metrics import (
+    signal_gap_analysis,
+    signal_consecutive_streaks,
+    signal_hot_cold_momentum,
+    compute_inter_signal_correlation,
+    compute_dynamic_weights,
+    chi_squared_fit_test,
+    calculate_pair_triple_match_rate,
+    calculate_expected_wheel_guarantee
+)
 
 SEED = 42
 
 
-# ── HARVEST SIGNALS FROM STEPS 1 - 11 ─────────────────────────────────────────
+# ── HARVEST SIGNALS FROM STEPS 1 - 11 + ENHANCEMENTS ──────────────────────────
 
 def harvest_all_signals(df):
     """
-    Imports and collects prediction probability vectors from Steps 1 through 11.
+    Imports and collects prediction probability vectors from Steps 1 through 11
+    and advanced feature engineering enhancement signals.
     """
     # Step 6
     spec6 = importlib.util.spec_from_file_location("mod6", "06_prediction_report.py")
@@ -51,6 +62,11 @@ def harvest_all_signals(df):
     sig_pair = mod6.signal_pair_lift(df)
     signals6 = {"frequency": sig_freq, "cold": sig_cold, "markov": sig_markov, "pair_lift": sig_pair}
     p6_ens = mod6.ensemble(signals6, mod6.DEFAULT_WEIGHTS)
+
+    # Feature Enhancements
+    sig_gap = signal_gap_analysis(df)
+    sig_streak = signal_consecutive_streaks(df)
+    sig_mom = signal_hot_cold_momentum(df)
 
     # Step 7
     spec7 = importlib.util.spec_from_file_location("mod7", "07_advanced_prediction.py")
@@ -117,6 +133,9 @@ def harvest_all_signals(df):
         "12. BlackRock Kalman": p_kalman11,
         "13. BlackRock Hawkes": p_hawkes11,
         "14. BlackRock EVT Tail": p_evt11,
+        "15. Gap Regularity":   sig_gap,
+        "16. Streak Clusters" :  sig_streak,
+        "17. Hot/Cold Momentum": sig_mom,
     }
     return signals_dict
 
@@ -126,29 +145,23 @@ def harvest_all_signals(df):
 def meta_ai_blend(signals_dict, df=None):
     """
     Fits an Adaptive Tail-Boosted Meta-Learner V2:
-    Applies adaptive prior boosting for tail-risk institutional quant engines
-    (BlackRock V2, Kalman, Hawkes, EVT, Cold/Due) to eliminate blind spots.
+    Applies inter-signal correlation (IC) scoring, dynamic regime weighting,
+    and tail-risk institutional quant boosting.
     """
     matrix = np.array(list(signals_dict.values()))  # Shape: (K, POOL)
     names = list(signals_dict.keys())
 
-    if df is not None and len(df) > 30:
-        recent_draws = df["numbers"].iloc[-5:].tolist()
+    if df is not None and len(df) > 15:
+        # Calculate dynamic state weights and inter-signal correlations
+        dyn_weights = compute_dynamic_weights(df, signals_dict, recent_draws=10)
+        ic_dict = compute_inter_signal_correlation(df, signals_dict, lookback_draws=10)
+        
         ic_scores = []
-        for i, p_vec in enumerate(matrix):
-            draw_corrs = []
-            for d_set in recent_draws:
-                t_vec = np.zeros(POOL)
-                for b in d_set:
-                    t_vec[b - 1] = 1.0
-                corr, _ = spearmanr(p_vec, t_vec)
-                draw_corrs.append(corr if not np.isnan(corr) else 0.05)
-            avg_corr = np.mean(draw_corrs)
-            base_ic = max(0.01, avg_corr)
-
-            if any(k in names[i] for k in ["BlackRock", "Quantum", "Kalman", "Hawkes", "EVT"]):
-                base_ic *= 2.5
-            ic_scores.append(base_ic)
+        for i, name in enumerate(names):
+            ic_val = max(0.01, ic_dict.get(name, 0.05))
+            if any(k in name for k in ["Step 7", "BlackRock", "Quantum", "Kalman", "Hawkes", "EVT", "Momentum", "Streak", "Gap"]):
+                ic_val *= 2.0
+            ic_scores.append(ic_val * dyn_weights[i])
 
         meta_weights = np.array(ic_scores)
         meta_weights /= meta_weights.sum()
@@ -166,11 +179,11 @@ def meta_ai_blend(signals_dict, df=None):
 
 # ── MAIN EXECUTION & GRAND INFOGRAPHIC GENERATOR ──────────────────────────────
 
-def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_size: int = DRAW_SIZE) -> list[int]:
+def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_size: int = DRAW_SIZE, df=None) -> list[int]:
     """
     Selects the highest-probability ticket from top_pool constrained by:
     1. Sum inside ideal range [95, 145]
-    2. Balanced 3 Low (<=19) / 3 High (>19) split
+    2. Adaptive Low (<=19) / High (>19) split (flexible [2..4] split favored)
     3. Multi-zone representation (at least 3 zones)
     4. Anti-clustering filter (max 2 balls from top-3 over-saturated frequency balls)
     """
@@ -178,21 +191,41 @@ def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_s
     best_ticket = None
     best_score = -1.0
 
+    # Determine target low/high & odd/even prior preference if dataframe available
+    target_low_count = 3
+    target_odd_count = 3
+    if df is not None and len(df) >= 10:
+        low_counts = df["numbers"].tail(10).apply(lambda nums: sum(1 for n in nums if n <= 19))
+        odd_counts = df["numbers"].tail(10).apply(lambda nums: sum(1 for n in nums if n % 2 != 0))
+        target_low_count = int(round(low_counts.mean()))
+        target_odd_count = int(round(odd_counts.mean()))
+
     for comb in itertools.combinations(top_pool, ticket_size):
         comb_sum = sum(comb)
-        if not (95 <= comb_sum <= 145):
+        if not (90 <= comb_sum <= 150):
             continue
         n_low = sum(1 for n in comb if n <= 19)
         n_high = ticket_size - n_low
-        if n_low != 3 or n_high != 3:
+        n_odd = sum(1 for n in comb if n % 2 != 0)
+        
+        # Allow 2L/4H, 3L/3H, 4L/2H (and 1L/5H or 5L/1H if target skew warrants)
+        if n_low < 1 or n_high < 1:
             continue
+            
         zones = set(0 if n <= 10 else 1 if n <= 20 else 2 if n <= 30 else 3 for n in comb)
         if len(zones) < 3:
             continue
         if sum(1 for n in comb if n in top3_freq) > 2:
             continue
 
-        score = sum(prob_vector[n - 1] for n in comb)
+        base_prob = sum(prob_vector[n - 1] for n in comb)
+        
+        # Structural balance score modifier (Low/High & Odd/Even prior alignment)
+        dist_low = abs(n_low - target_low_count)
+        dist_odd = abs(n_odd - target_odd_count)
+        balance_multiplier = 1.0 - (dist_low * 0.05 + dist_odd * 0.05)
+        
+        score = base_prob * balance_multiplier
         if score > best_score:
             best_score = score
             best_ticket = sorted(comb)
@@ -219,7 +252,7 @@ def main():
     top_14_indices = np.argsort(meta_prob)[::-1][:14]
     top_14_numbers = sorted((top_14_indices + 1).tolist())
 
-    top_6_numbers = select_optimal_ticket(top_14_numbers, meta_prob, ticket_size=DRAW_SIZE)
+    top_6_numbers = select_optimal_ticket(top_14_numbers, meta_prob, ticket_size=DRAW_SIZE, df=df)
 
     print("\n============================================================")
     print("  GRAND UNIFIED PREDICTION RESULTS (EASY6)")
@@ -227,8 +260,20 @@ def main():
     print(f"★ ULTIMATE RECOMMENDED GRAND MASTER TICKET V2:  {top_6_numbers}  ★")
     print(f"Candidate Pool (Top 14 Meta-AI Balls)       : {top_14_numbers}")
 
+    # Validation Depth Metrics
+    chi2_res = chi_squared_fit_test(top_6_numbers, df)
+    pair_triple_res = calculate_pair_triple_match_rate(top_6_numbers, df["numbers"].iloc[-1])
+    wheel_guarantee = calculate_expected_wheel_guarantee(pool_size=14, target_k=3)
+
+    print("\n  [+] Statistical & Validation Depth Summary:")
+    print(f"      • Structural Fit Chi2 Score : {chi2_res['statistical_fit_score']}/100 (Chi2 Stat: {chi2_res['chi2_stat']})")
+    print(f"      • Low/High Alignment      : Observed {chi2_res['observed_low_high']} (Expected: {chi2_res['expected_low_high']})")
+    print(f"      • Pair Match Rate vs Last   : {pair_triple_res['pair_match_rate_pct']}% ({pair_triple_res['pairs_hit']}/15 pairs hit)")
+    print(f"      • Triple Match Rate vs Last : {pair_triple_res['triple_match_rate_pct']}% ({pair_triple_res['triples_hit']}/20 triples hit)")
+    print(f"      • Theoretical Wheel Guarantee: {wheel_guarantee['guarantee_prob_by_pool_hits'][3]}% for 3 pool hits, {wheel_guarantee['guarantee_prob_by_pool_hits'][4]}% for 4 pool hits")
+
     tickets = generate_covering_wheel(top_14_numbers, ticket_size=DRAW_SIZE, match_guarantee=3)
-    print(f"[Wheeling] Generated 3-if-3 covering wheel in {len(tickets)} tickets.")
+    print(f"\n[Wheeling] Generated 3-if-3 covering wheel in {len(tickets)} tickets.")
 
     run_dir = get_run_folder()
 

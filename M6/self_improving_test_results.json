@@ -1,0 +1,1082 @@
+[
+  {
+    "iteration": 1,
+    "date": "2026-03-20",
+    "predicted_ticket": [
+      5,
+      6,
+      25,
+      27,
+      30,
+      31
+    ],
+    "actual_winning": [
+      14,
+      27,
+      28,
+      32,
+      34,
+      39
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 2,
+    "wheel_max_hit": 2,
+    "pre_adj_rank_pct": 60.53,
+    "post_adj_rank_pct": 52.19,
+    "rank_improvement": 8.33,
+    "pred_lh": "2L / 4H",
+    "actual_lh": "1L / 5H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "2O / 4E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 65.35087719298245
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 50.0
+      },
+      "Step 8": {
+        "hits": 2,
+        "rank_pct": 44.29824561403509
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 57.01754385964912
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 65.78947368421053
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 54.82456140350877
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 60.52631578947369
+      }
+    }
+  },
+  {
+    "iteration": 2,
+    "date": "2026-03-27",
+    "predicted_ticket": [
+      1,
+      6,
+      7,
+      18,
+      28,
+      37
+    ],
+    "actual_winning": [
+      2,
+      12,
+      16,
+      28,
+      35,
+      37
+    ],
+    "ticket_hits": 2,
+    "pool_hits": 4,
+    "wheel_max_hit": 4,
+    "pre_adj_rank_pct": 30.26,
+    "post_adj_rank_pct": 30.26,
+    "rank_improvement": 0.0,
+    "pred_lh": "4L / 2H",
+    "actual_lh": "3L / 3H",
+    "pred_oe": "3O / 3E",
+    "actual_oe": "2O / 4E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 44.298245614035096
+      },
+      "Step 7": {
+        "hits": 3,
+        "rank_pct": 28.07017543859649
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 53.07017543859649
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 55.26315789473684
+      },
+      "Step 10": {
+        "hits": 2,
+        "rank_pct": 47.36842105263158
+      },
+      "Step 11": {
+        "hits": 3,
+        "rank_pct": 21.929824561403507
+      },
+      "Step 12 Meta": {
+        "hits": 2,
+        "rank_pct": 30.26315789473684
+      }
+    }
+  },
+  {
+    "iteration": 3,
+    "date": "2026-04-03",
+    "predicted_ticket": [
+      7,
+      9,
+      19,
+      24,
+      30,
+      34
+    ],
+    "actual_winning": [
+      10,
+      27,
+      29,
+      32,
+      34,
+      36
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 3,
+    "wheel_max_hit": 3,
+    "pre_adj_rank_pct": 58.33,
+    "post_adj_rank_pct": 58.33,
+    "rank_improvement": 0.0,
+    "pred_lh": "3L / 3H",
+    "actual_lh": "1L / 5H",
+    "pred_oe": "3O / 3E",
+    "actual_oe": "2O / 4E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 66.66666666666667
+      },
+      "Step 7": {
+        "hits": 1,
+        "rank_pct": 54.82456140350877
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 60.52631578947369
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 57.017543859649116
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 56.57894736842105
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 60.08771929824562
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 58.333333333333336
+      }
+    }
+  },
+  {
+    "iteration": 4,
+    "date": "2026-04-10",
+    "predicted_ticket": [
+      4,
+      9,
+      13,
+      21,
+      24,
+      27
+    ],
+    "actual_winning": [
+      3,
+      4,
+      8,
+      16,
+      23,
+      36
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 3,
+    "wheel_max_hit": 3,
+    "pre_adj_rank_pct": 56.14,
+    "post_adj_rank_pct": 56.14,
+    "rank_improvement": 0.0,
+    "pred_lh": "3L / 3H",
+    "actual_lh": "4L / 2H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "2O / 4E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 56.57894736842106
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 65.78947368421052
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 47.807017543859644
+      },
+      "Step 9": {
+        "hits": 0,
+        "rank_pct": 66.2280701754386
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 48.24561403508772
+      },
+      "Step 11": {
+        "hits": 0,
+        "rank_pct": 65.78947368421052
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 56.14035087719298
+      }
+    }
+  },
+  {
+    "iteration": 5,
+    "date": "2026-04-17",
+    "predicted_ticket": [
+      9,
+      19,
+      24,
+      27,
+      34,
+      35
+    ],
+    "actual_winning": [
+      4,
+      15,
+      17,
+      19,
+      26,
+      37
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 2,
+    "wheel_max_hit": 2,
+    "pre_adj_rank_pct": 50.44,
+    "post_adj_rank_pct": 50.44,
+    "rank_improvement": 0.0,
+    "pred_lh": "2L / 4H",
+    "actual_lh": "4L / 2H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "4O / 2E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 44.73684210526316
+      },
+      "Step 7": {
+        "hits": 1,
+        "rank_pct": 48.24561403508772
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 51.3157894736842
+      },
+      "Step 9": {
+        "hits": 0,
+        "rank_pct": 69.73684210526315
+      },
+      "Step 10": {
+        "hits": 0,
+        "rank_pct": 63.15789473684211
+      },
+      "Step 11": {
+        "hits": 2,
+        "rank_pct": 43.42105263157894
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 50.438596491228076
+      }
+    }
+  },
+  {
+    "iteration": 6,
+    "date": "2026-04-24",
+    "predicted_ticket": [
+      2,
+      7,
+      9,
+      24,
+      35,
+      36
+    ],
+    "actual_winning": [
+      11,
+      15,
+      19,
+      34,
+      35,
+      39
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 1,
+    "wheel_max_hit": 1,
+    "pre_adj_rank_pct": 67.11,
+    "post_adj_rank_pct": 67.11,
+    "rank_improvement": 0.0,
+    "pred_lh": "3L / 3H",
+    "actual_lh": "3L / 3H",
+    "pred_oe": "3O / 3E",
+    "actual_oe": "5O / 1E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 60.96491228070176
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 67.10526315789474
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 50.877192982456144
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 50.438596491228076
+      },
+      "Step 10": {
+        "hits": 0,
+        "rank_pct": 47.36842105263158
+      },
+      "Step 11": {
+        "hits": 0,
+        "rank_pct": 71.05263157894737
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 67.10526315789474
+      }
+    }
+  },
+  {
+    "iteration": 7,
+    "date": "2026-05-01",
+    "predicted_ticket": [
+      5,
+      15,
+      16,
+      18,
+      30,
+      34
+    ],
+    "actual_winning": [
+      1,
+      3,
+      16,
+      19,
+      30,
+      36
+    ],
+    "ticket_hits": 2,
+    "pool_hits": 3,
+    "wheel_max_hit": 3,
+    "pre_adj_rank_pct": 36.84,
+    "post_adj_rank_pct": 36.84,
+    "rank_improvement": 0.0,
+    "pred_lh": "4L / 2H",
+    "actual_lh": "4L / 2H",
+    "pred_oe": "2O / 4E",
+    "actual_oe": "3O / 3E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 2,
+        "rank_pct": 38.59649122807017
+      },
+      "Step 7": {
+        "hits": 1,
+        "rank_pct": 50.0
+      },
+      "Step 8": {
+        "hits": 2,
+        "rank_pct": 47.807017543859644
+      },
+      "Step 9": {
+        "hits": 2,
+        "rank_pct": 42.98245614035088
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 32.017543859649116
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 40.78947368421053
+      },
+      "Step 12 Meta": {
+        "hits": 2,
+        "rank_pct": 36.8421052631579
+      }
+    }
+  },
+  {
+    "iteration": 8,
+    "date": "2026-05-08",
+    "predicted_ticket": [
+      7,
+      13,
+      16,
+      19,
+      20,
+      37
+    ],
+    "actual_winning": [
+      8,
+      12,
+      20,
+      21,
+      25,
+      37
+    ],
+    "ticket_hits": 2,
+    "pool_hits": 2,
+    "wheel_max_hit": 2,
+    "pre_adj_rank_pct": 52.19,
+    "post_adj_rank_pct": 52.19,
+    "rank_improvement": 0.0,
+    "pred_lh": "4L / 2H",
+    "actual_lh": "2L / 4H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "3O / 3E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 53.508771929824555
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 59.64912280701754
+      },
+      "Step 8": {
+        "hits": 3,
+        "rank_pct": 28.070175438596493
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 62.28070175438597
+      },
+      "Step 10": {
+        "hits": 0,
+        "rank_pct": 75.43859649122807
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 57.456140350877185
+      },
+      "Step 12 Meta": {
+        "hits": 2,
+        "rank_pct": 52.19298245614035
+      }
+    }
+  },
+  {
+    "iteration": 9,
+    "date": "2026-05-15",
+    "predicted_ticket": [
+      3,
+      7,
+      13,
+      16,
+      37,
+      38
+    ],
+    "actual_winning": [
+      4,
+      20,
+      30,
+      32,
+      35,
+      36
+    ],
+    "ticket_hits": 0,
+    "pool_hits": 0,
+    "wheel_max_hit": 0,
+    "pre_adj_rank_pct": 61.4,
+    "post_adj_rank_pct": 61.4,
+    "rank_improvement": 0.0,
+    "pred_lh": "4L / 2H",
+    "actual_lh": "1L / 5H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "1O / 5E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 43.42105263157895
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 57.01754385964912
+      },
+      "Step 8": {
+        "hits": 0,
+        "rank_pct": 67.98245614035088
+      },
+      "Step 9": {
+        "hits": 0,
+        "rank_pct": 61.8421052631579
+      },
+      "Step 10": {
+        "hits": 2,
+        "rank_pct": 26.754385964912277
+      },
+      "Step 11": {
+        "hits": 0,
+        "rank_pct": 60.96491228070175
+      },
+      "Step 12 Meta": {
+        "hits": 0,
+        "rank_pct": 61.40350877192983
+      }
+    }
+  },
+  {
+    "iteration": 10,
+    "date": "2026-05-22",
+    "predicted_ticket": [
+      4,
+      9,
+      16,
+      23,
+      36,
+      39
+    ],
+    "actual_winning": [
+      4,
+      5,
+      20,
+      21,
+      25,
+      28
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 1,
+    "wheel_max_hit": 1,
+    "pre_adj_rank_pct": 57.02,
+    "post_adj_rank_pct": 57.02,
+    "rank_improvement": 0.0,
+    "pred_lh": "3L / 3H",
+    "actual_lh": "2L / 4H",
+    "pred_oe": "3O / 3E",
+    "actual_oe": "3O / 3E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 58.771929824561404
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 61.84210526315789
+      },
+      "Step 8": {
+        "hits": 0,
+        "rank_pct": 64.03508771929825
+      },
+      "Step 9": {
+        "hits": 2,
+        "rank_pct": 33.333333333333336
+      },
+      "Step 10": {
+        "hits": 2,
+        "rank_pct": 39.473684210526315
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 46.491228070175445
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 57.01754385964912
+      }
+    }
+  },
+  {
+    "iteration": 11,
+    "date": "2026-05-29",
+    "predicted_ticket": [
+      4,
+      20,
+      21,
+      24,
+      26,
+      35
+    ],
+    "actual_winning": [
+      9,
+      12,
+      13,
+      18,
+      34,
+      38
+    ],
+    "ticket_hits": 0,
+    "pool_hits": 0,
+    "wheel_max_hit": 0,
+    "pre_adj_rank_pct": 68.86,
+    "post_adj_rank_pct": 68.86,
+    "rank_improvement": 0.0,
+    "pred_lh": "1L / 5H",
+    "actual_lh": "4L / 2H",
+    "pred_oe": "2O / 4E",
+    "actual_oe": "2O / 4E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 69.29824561403508
+      },
+      "Step 7": {
+        "hits": 2,
+        "rank_pct": 40.78947368421053
+      },
+      "Step 8": {
+        "hits": 0,
+        "rank_pct": 71.9298245614035
+      },
+      "Step 9": {
+        "hits": 0,
+        "rank_pct": 57.89473684210526
+      },
+      "Step 10": {
+        "hits": 0,
+        "rank_pct": 72.36842105263158
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 42.10526315789474
+      },
+      "Step 12 Meta": {
+        "hits": 0,
+        "rank_pct": 68.85964912280701
+      }
+    }
+  },
+  {
+    "iteration": 12,
+    "date": "2026-06-05",
+    "predicted_ticket": [
+      4,
+      12,
+      20,
+      31,
+      34,
+      35
+    ],
+    "actual_winning": [
+      1,
+      3,
+      8,
+      9,
+      11,
+      20
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 1,
+    "wheel_max_hit": 1,
+    "pre_adj_rank_pct": 75.0,
+    "post_adj_rank_pct": 75.0,
+    "rank_improvement": 0.0,
+    "pred_lh": "2L / 4H",
+    "actual_lh": "5L / 1H",
+    "pred_oe": "2O / 4E",
+    "actual_oe": "4O / 2E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 67.10526315789474
+      },
+      "Step 7": {
+        "hits": 0,
+        "rank_pct": 75.0
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 64.47368421052632
+      },
+      "Step 9": {
+        "hits": 0,
+        "rank_pct": 64.03508771929825
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 45.61403508771931
+      },
+      "Step 11": {
+        "hits": 0,
+        "rank_pct": 71.9298245614035
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 75.0
+      }
+    }
+  },
+  {
+    "iteration": 13,
+    "date": "2026-06-12",
+    "predicted_ticket": [
+      20,
+      21,
+      23,
+      24,
+      27,
+      31
+    ],
+    "actual_winning": [
+      11,
+      23,
+      25,
+      31,
+      35,
+      39
+    ],
+    "ticket_hits": 2,
+    "pool_hits": 2,
+    "wheel_max_hit": 2,
+    "pre_adj_rank_pct": 48.25,
+    "post_adj_rank_pct": 48.25,
+    "rank_improvement": 0.0,
+    "pred_lh": "0L / 6H",
+    "actual_lh": "1L / 5H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "6O / 0E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 51.754385964912274
+      },
+      "Step 7": {
+        "hits": 2,
+        "rank_pct": 46.491228070175445
+      },
+      "Step 8": {
+        "hits": 2,
+        "rank_pct": 24.561403508771928
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 46.05263157894737
+      },
+      "Step 10": {
+        "hits": 0,
+        "rank_pct": 46.49122807017543
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 53.508771929824555
+      },
+      "Step 12 Meta": {
+        "hits": 2,
+        "rank_pct": 48.245614035087726
+      }
+    }
+  },
+  {
+    "iteration": 14,
+    "date": "2026-06-19",
+    "predicted_ticket": [
+      11,
+      20,
+      22,
+      27,
+      30,
+      34
+    ],
+    "actual_winning": [
+      7,
+      8,
+      17,
+      24,
+      35,
+      38
+    ],
+    "ticket_hits": 0,
+    "pool_hits": 2,
+    "wheel_max_hit": 2,
+    "pre_adj_rank_pct": 56.58,
+    "post_adj_rank_pct": 56.58,
+    "rank_improvement": 0.0,
+    "pred_lh": "1L / 5H",
+    "actual_lh": "3L / 3H",
+    "pred_oe": "2O / 4E",
+    "actual_oe": "3O / 3E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 56.140350877192986
+      },
+      "Step 7": {
+        "hits": 2,
+        "rank_pct": 39.91228070175439
+      },
+      "Step 8": {
+        "hits": 0,
+        "rank_pct": 63.15789473684211
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 51.31578947368421
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 64.47368421052632
+      },
+      "Step 11": {
+        "hits": 2,
+        "rank_pct": 39.03508771929825
+      },
+      "Step 12 Meta": {
+        "hits": 0,
+        "rank_pct": 56.57894736842105
+      }
+    }
+  },
+  {
+    "iteration": 15,
+    "date": "2026-06-26",
+    "predicted_ticket": [
+      16,
+      22,
+      27,
+      33,
+      35,
+      36
+    ],
+    "actual_winning": [
+      4,
+      26,
+      27,
+      31,
+      33,
+      39
+    ],
+    "ticket_hits": 2,
+    "pool_hits": 3,
+    "wheel_max_hit": 3,
+    "pre_adj_rank_pct": 40.35,
+    "post_adj_rank_pct": 40.35,
+    "rank_improvement": 0.0,
+    "pred_lh": "1L / 5H",
+    "actual_lh": "1L / 5H",
+    "pred_oe": "3O / 3E",
+    "actual_oe": "4O / 2E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 57.456140350877185
+      },
+      "Step 7": {
+        "hits": 2,
+        "rank_pct": 33.333333333333336
+      },
+      "Step 8": {
+        "hits": 2,
+        "rank_pct": 44.29824561403509
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 49.561403508771924
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 54.38596491228069
+      },
+      "Step 11": {
+        "hits": 2,
+        "rank_pct": 39.03508771929825
+      },
+      "Step 12 Meta": {
+        "hits": 2,
+        "rank_pct": 40.35087719298246
+      }
+    }
+  },
+  {
+    "iteration": 16,
+    "date": "2026-07-03",
+    "predicted_ticket": [
+      3,
+      13,
+      16,
+      19,
+      35,
+      36
+    ],
+    "actual_winning": [
+      2,
+      10,
+      18,
+      26,
+      28,
+      32
+    ],
+    "ticket_hits": 0,
+    "pool_hits": 0,
+    "wheel_max_hit": 0,
+    "pre_adj_rank_pct": 64.91,
+    "post_adj_rank_pct": 64.91,
+    "rank_improvement": 0.0,
+    "pred_lh": "4L / 2H",
+    "actual_lh": "3L / 3H",
+    "pred_oe": "4O / 2E",
+    "actual_oe": "0O / 6E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 0,
+        "rank_pct": 68.85964912280703
+      },
+      "Step 7": {
+        "hits": 2,
+        "rank_pct": 47.36842105263158
+      },
+      "Step 8": {
+        "hits": 0,
+        "rank_pct": 56.57894736842106
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 45.175438596491226
+      },
+      "Step 10": {
+        "hits": 0,
+        "rank_pct": 65.78947368421052
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 61.8421052631579
+      },
+      "Step 12 Meta": {
+        "hits": 0,
+        "rank_pct": 64.9122807017544
+      }
+    }
+  },
+  {
+    "iteration": 17,
+    "date": "2026-07-10",
+    "predicted_ticket": [
+      10,
+      15,
+      19,
+      29,
+      33,
+      37
+    ],
+    "actual_winning": [
+      2,
+      19,
+      22,
+      31,
+      33,
+      35
+    ],
+    "ticket_hits": 2,
+    "pool_hits": 3,
+    "wheel_max_hit": 3,
+    "pre_adj_rank_pct": 39.04,
+    "post_adj_rank_pct": 39.04,
+    "rank_improvement": 0.0,
+    "pred_lh": "3L / 3H",
+    "actual_lh": "2L / 4H",
+    "pred_oe": "5O / 1E",
+    "actual_oe": "4O / 2E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 54.385964912280706
+      },
+      "Step 7": {
+        "hits": 1,
+        "rank_pct": 42.54385964912281
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 61.403508771929815
+      },
+      "Step 9": {
+        "hits": 1,
+        "rank_pct": 58.33333333333332
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 53.50877192982457
+      },
+      "Step 11": {
+        "hits": 2,
+        "rank_pct": 42.10526315789473
+      },
+      "Step 12 Meta": {
+        "hits": 2,
+        "rank_pct": 39.03508771929825
+      }
+    }
+  },
+  {
+    "iteration": 18,
+    "date": "2026-07-17",
+    "predicted_ticket": [
+      15,
+      28,
+      30,
+      32,
+      35,
+      36
+    ],
+    "actual_winning": [
+      5,
+      8,
+      16,
+      24,
+      25,
+      30
+    ],
+    "ticket_hits": 1,
+    "pool_hits": 2,
+    "wheel_max_hit": 2,
+    "pre_adj_rank_pct": 53.51,
+    "post_adj_rank_pct": 53.51,
+    "rank_improvement": 0.0,
+    "pred_lh": "1L / 5H",
+    "actual_lh": "3L / 3H",
+    "pred_oe": "2O / 4E",
+    "actual_oe": "2O / 4E",
+    "step_evals": {
+      "Step 6": {
+        "hits": 1,
+        "rank_pct": 39.91228070175438
+      },
+      "Step 7": {
+        "hits": 2,
+        "rank_pct": 54.38596491228069
+      },
+      "Step 8": {
+        "hits": 1,
+        "rank_pct": 50.0
+      },
+      "Step 9": {
+        "hits": 0,
+        "rank_pct": 63.596491228070185
+      },
+      "Step 10": {
+        "hits": 1,
+        "rank_pct": 55.70175438596491
+      },
+      "Step 11": {
+        "hits": 1,
+        "rank_pct": 45.17543859649123
+      },
+      "Step 12 Meta": {
+        "hits": 1,
+        "rank_pct": 53.508771929824555
+      }
+    }
+  }
+]

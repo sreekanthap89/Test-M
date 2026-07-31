@@ -1,17 +1,19 @@
 """
-13_randomness_audit_and_wheeling.py — Step 13: Randomness Auditing & Combinatorial Wheeling Suite for EASY6.
-
+================================================================================
+15_randomness_audit_and_wheeling.py — MEGA7 Randomness Auditing & Wheeling Suite
+================================================================================
 Modules:
   1. Statistical Randomness Audit:
-     - Chi-Square Goodness-of-Fit test (Uniform distribution of numbers 1-39)
+     - Chi-Square Goodness-of-Fit test (Uniform distribution of numbers 1-37)
      - Serial Autocorrelation (Lag-1 correlation between consecutive draws)
      - Runs Test for Randomness (Odd/Even & High/Low sequential independence)
      - Shannon Entropy Analysis vs theoretical maximum
   2. Combinatorial Wheeling Optimization:
      - Set Cover wheeling generator (Guarantees match coverage without redundant pairs)
-     - Pairwise & Triplet coverage calculator for generated ticket sets
+     - Pairwise & Triplet coverage calculator for generated 7-number ticket sets
   3. Visualizations:
-     - Saves diagnostic charts to step13_randomness_audit.png in the run folder.
+     - Saves diagnostic charts to step15_randomness_audit_and_wheeling.png in run folder.
+================================================================================
 """
 
 import os
@@ -24,7 +26,8 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-from utils import load_data, get_run_folder, POOL, DRAW_SIZE, generate_covering_wheel, CSV_FILE
+from utils import load_data, get_run_folder, POOL, DRAW_SIZE, generate_covering_wheel, CSV_FILE, WIN_COLS
+
 
 def perform_chi_square_test(df: pd.DataFrame) -> dict:
     """Perform Chi-Square Goodness-of-Fit test against a uniform distribution."""
@@ -43,6 +46,7 @@ def perform_chi_square_test(df: pd.DataFrame) -> dict:
         "total_balls": total_balls
     }
 
+
 def perform_autocorrelation_test(df: pd.DataFrame) -> dict:
     """Compute lag autocorrelation across consecutive draw indices and sums."""
     sums = df["sum"].values
@@ -50,7 +54,7 @@ def perform_autocorrelation_test(df: pd.DataFrame) -> dict:
     
     # Position-wise autocorrelation across consecutive draws
     pos_autocorrs = []
-    for col in ["Winning Number 1", "2", "3", "4", "5", "6"]:
+    for col in WIN_COLS:
         vals = df[col].values
         if len(vals) > 1:
             r = np.corrcoef(vals[:-1], vals[1:])[0, 1]
@@ -62,6 +66,7 @@ def perform_autocorrelation_test(df: pd.DataFrame) -> dict:
         "sum_autocorr_lag1": autocorr_lag1,
         "pos_autocorrs": pos_autocorrs
     }
+
 
 def perform_runs_test(sequence: list) -> dict:
     """Wald-Wolfowitz Runs Test for sequence randomness."""
@@ -87,6 +92,7 @@ def perform_runs_test(sequence: list) -> dict:
         "p_value": p_val
     }
 
+
 def compute_entropy(df: pd.DataFrame) -> dict:
     """Compute empirical Shannon entropy of drawn numbers vs theoretical max."""
     all_numbers = [num for row in df["numbers"] for num in row]
@@ -103,6 +109,7 @@ def compute_entropy(df: pd.DataFrame) -> dict:
         "max_entropy": max_entropy,
         "entropy_ratio": entropy_ratio
     }
+
 
 def calculate_wheeling_coverage(tickets: list[tuple]) -> dict:
     """Calculate pair and triplet coverage percentages for a ticket set."""
@@ -130,10 +137,11 @@ def calculate_wheeling_coverage(tickets: list[tuple]) -> dict:
         "triplet_coverage_pct": triplet_cov_pct
     }
 
+
 def plot_diagnostics(chi2_res: dict, autocorr_res: dict, wheel_cov: dict, wheel_tickets: list[tuple], run_folder: str):
     """Plot diagnostic charts for the audit & wheeling suite."""
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    fig.suptitle("EASY6 Randomness Audit & Combinatorial Wheeling Diagnostics", fontsize=14, fontweight="bold")
+    fig.suptitle("MEGA7 Randomness Audit & Combinatorial Wheeling Diagnostics", fontsize=14, fontweight="bold")
     
     # 1. Number Frequency vs Expected (Uniformity)
     ax1 = axes[0, 0]
@@ -144,14 +152,14 @@ def plot_diagnostics(chi2_res: dict, autocorr_res: dict, wheel_cov: dict, wheel_
     ax1.bar(nums, obs, color="skyblue", edgecolor="navy", alpha=0.7, label="Observed Count")
     ax1.axhline(exp, color="red", linestyle="--", linewidth=2, label=f"Expected Uniform ({exp:.1f})")
     ax1.set_title(f"Chi-Square Uniformity Test (p-val: {chi2_res['p_value']:.4f})")
-    ax1.set_xlabel("Ball Number (1-39)")
+    ax1.set_xlabel("Ball Number (1-37)")
     ax1.set_ylabel("Frequency")
     ax1.legend()
     ax1.grid(True, linestyle=":", alpha=0.5)
     
     # 2. Position-wise Autocorrelation
     ax2 = axes[0, 1]
-    positions = [f"Pos {i}" for i in range(1, 7)]
+    positions = [f"Pos {i}" for i in range(1, 8)]
     autocorrs = autocorr_res["pos_autocorrs"]
     
     ax2.bar(positions, autocorrs, color="teal", alpha=0.7)
@@ -170,14 +178,14 @@ def plot_diagnostics(chi2_res: dict, autocorr_res: dict, wheel_cov: dict, wheel_
     accum_pairs = set()
     total_p = wheel_cov["total_pairs"]
     
-    for t in wheel_tickets[:24]:
+    for t in wheel_tickets:
         accum_pairs.update(itertools.combinations(t, 2))
         pair_coverages.append((len(accum_pairs) / total_p) * 100.0)
         
     ax3.plot(range(1, len(pair_coverages) + 1), pair_coverages, marker="o", color="purple", linewidth=2)
     ax3.set_title("Set Cover Pairwise Coverage Curve (Combinatorial Efficiency)")
     ax3.set_xlabel("Number of Tickets in Wheel")
-    ax3.set_ylabel("Pairwise Coverage (% of 741 Pairs)")
+    ax3.set_ylabel(f"Pairwise Coverage (% of {total_p} Pairs)")
     ax3.grid(True, linestyle=":", alpha=0.5)
     
     # 4. Diagnostic Summary Text Box
@@ -198,15 +206,16 @@ def plot_diagnostics(chi2_res: dict, autocorr_res: dict, wheel_cov: dict, wheel_
     ax4.text(0.05, 0.5, summary_text, fontsize=11, family="monospace", va="center", bbox=dict(boxstyle="round,pad=1", facecolor="gainsboro", alpha=0.5))
     
     plt.tight_layout(rect=[0, 0, 1, 0.95])
-    out_path = os.path.join(run_folder, "step13_randomness_audit.png")
+    out_path = os.path.join(run_folder, "step15_randomness_audit_and_wheeling.png")
     plt.savefig(out_path, dpi=150)
     plt.close()
     print(f"[+] Saved diagnostic plot to: {out_path}")
 
+
 def main():
-    print("=" * 70)
-    print(" STEP 13 — EASY6 RANDOMNESS AUDITING & COMBINATORIAL WHEELING SUITE ")
-    print("=" * 70)
+    print("============================================================")
+    print(" STEP 15 — MEGA7 RANDOMNESS AUDITING & COMBINATORIAL WHEELING SUITE ")
+    print("============================================================")
     
     df = load_data(CSV_FILE)
     run_folder = get_run_folder()
@@ -238,17 +247,17 @@ def main():
     print(f"    - Theoretical Max: {entropy_res['max_entropy']:.4f} bits")
     print(f"    - Entropy Efficiency: {entropy_res['entropy_ratio'] * 100:.2f}%")
     
-    # 5. Dynamic Harvesting of Step 12 Candidate Pool for Wheeling Optimization
+    # Dynamic Harvesting of Step 14 Candidate Pool for Wheeling Optimization
     candidate_pool = list(range(1, 15))
     try:
         import importlib.util
-        spec12 = importlib.util.spec_from_file_location("mod12", "12_master_ai_meta_ensemble.py")
-        mod12 = importlib.util.module_from_spec(spec12)
-        spec12.loader.exec_module(mod12)
-        signals_dict = mod12.harvest_all_signals(df)
-        meta_prob, _, _ = mod12.meta_ai_blend(signals_dict, df=df)
+        spec14 = importlib.util.spec_from_file_location("mod14", "14_master_ai_meta_ensemble.py")
+        mod14 = importlib.util.module_from_spec(spec14)
+        spec14.loader.exec_module(mod14)
+        signals_dict = mod14.harvest_all_signals(df)
+        meta_prob, _, _ = mod14.meta_ai_blend(signals_dict, df=df)
         candidate_pool = sorted((np.argsort(meta_prob)[::-1][:14] + 1).tolist())
-        print(f"\n[5] Harvested Step 12 Master Meta-AI Top 14 Candidate Pool:")
+        print(f"\n[5] Harvested Step 14 Master Meta-AI Top 14 Candidate Pool:")
         print(f"    - Pool: {candidate_pool}")
     except Exception as err:
         print(f"\n[5] Using default candidate pool (1..14): {err}")
@@ -261,7 +270,8 @@ def main():
     print(f"    - Triplet Coverage: {wheel_cov['covered_triplets']}/{wheel_cov['total_triplets']} ({wheel_cov['triplet_coverage_pct']:.2f}%)")
     
     plot_diagnostics(chi2_res, autocorr_res, wheel_cov, wheel_tickets, run_folder)
-    print("\n[OK] Step 13 audit and wheeling execution completed successfully.")
+    print("\n[OK] Step 15 audit and wheeling execution completed successfully.")
+
 
 if __name__ == "__main__":
     main()

@@ -42,16 +42,22 @@ from enhanced_features_and_metrics import (
     calculate_pair_triple_match_rate,
     calculate_expected_wheel_guarantee
 )
+from gnn_hawkes_meta_learning import (
+    signal_gnn_network,
+    hawkes_jump_diffusion_process,
+    predict_draw_volatility_evt,
+    MetaLearningWeightPredictor
+)
 
 SEED = 42
 
 
-# ── HARVEST SIGNALS FROM STEPS 1 - 11 + ENHANCEMENTS ──────────────────────────
+# ── HARVEST SIGNALS FROM STEPS 1 - 11 + ENHANCEMENTS + GNN & PROCESS ───────────
 
 def harvest_all_signals(df):
     """
-    Imports and collects prediction probability vectors from Steps 1 through 11
-    and advanced feature engineering enhancement signals.
+    Imports and collects prediction probability vectors from Steps 1 through 11,
+    advanced feature engineering, GNN Relational Network, and Hawkes+Jump Processes.
     """
     # Step 6
     spec6 = importlib.util.spec_from_file_location("mod6", "06_prediction_report.py")
@@ -67,6 +73,10 @@ def harvest_all_signals(df):
     sig_gap = signal_gap_analysis(df)
     sig_streak = signal_consecutive_streaks(df)
     sig_mom = signal_hot_cold_momentum(df)
+
+    # GNN & Advanced Process Signals
+    sig_gnn = signal_gnn_network(df, pool_size=POOL, seed=SEED)
+    sig_hawkes_jump = hawkes_jump_diffusion_process(df, pool_size=POOL)
 
     # Step 7
     spec7 = importlib.util.spec_from_file_location("mod7", "07_advanced_prediction.py")
@@ -136,36 +146,25 @@ def harvest_all_signals(df):
         "15. Gap Regularity":   sig_gap,
         "16. Streak Clusters" :  sig_streak,
         "17. Hot/Cold Momentum": sig_mom,
+        "18. GNN Relational Net": sig_gnn,
+        "19. Hawkes-Jump Process": sig_hawkes_jump,
     }
     return signals_dict
 
 
-# ── AI META-LEARNER V2 (ADAPTIVE TAIL-BOOSTED META-REGRESSOR) ──────────────────
+# ── AI META-LEARNER V3 (NEURAL META-MODEL WEIGHT ADAPTATION) ───────────────────
 
 def meta_ai_blend(signals_dict, df=None):
     """
-    Fits an Adaptive Tail-Boosted Meta-Learner V2:
-    Applies inter-signal correlation (IC) scoring, dynamic regime weighting,
-    and tail-risk institutional quant boosting.
+    Fits Intelligent Meta-Learner Neural Network V3:
+    Predicts optimal blend weights dynamically across Frequency, Markov,
+    Hawkes, EVT, BlackRock, and GNN Relational networks.
     """
     matrix = np.array(list(signals_dict.values()))  # Shape: (K, POOL)
-    names = list(signals_dict.keys())
 
     if df is not None and len(df) > 15:
-        # Calculate dynamic state weights and inter-signal correlations
-        dyn_weights = compute_dynamic_weights(df, signals_dict, recent_draws=10)
-        ic_dict = compute_inter_signal_correlation(df, signals_dict, lookback_draws=10)
-        
-        ic_scores = []
-        for i, name in enumerate(names):
-            ic_val = max(0.01, ic_dict.get(name, 0.05))
-            if any(k in name for k in ["Step 7", "BlackRock", "Quantum", "Kalman", "Hawkes", "EVT", "Momentum", "Streak", "Gap"]):
-                ic_val *= 2.0
-            ic_scores.append(ic_val * dyn_weights[i])
-
-        meta_weights = np.array(ic_scores)
-        meta_weights /= meta_weights.sum()
-
+        meta_predictor = MetaLearningWeightPredictor(n_signals=len(signals_dict), seed=SEED)
+        meta_weights = meta_predictor.fit_and_predict_weights(df, signals_dict)
         meta_prob = sum(meta_weights[i] * matrix[i] for i in range(len(meta_weights)))
     else:
         meta_weights = np.ones(len(signals_dict)) / len(signals_dict)

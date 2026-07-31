@@ -66,5 +66,22 @@ This document records the architectural and mathematical changes made to migrate
   - Guarantee target: 3-if-3 win guarantee (covers all $C(14,3) = 364$ requirements in minimal 7-number tickets).
 
 ### Master Runner (`run_all.py`)
-- **Shared Session Management:** Integrated `utils.set_session_folder` to route all 8 steps to a single `runs/YYYY-MM-DD_HH-MM-SS/` directory.
+- **Shared Session Management:** Integrated `utils.set_session_folder` to route all steps to a single `runs/YYYY-MM-DD_HH-MM-SS/` directory.
 - **Result Harvesting:** Updated to harvest and print top-7 tickets across Phase 1, Phase 2, Phase 3, and Wheeling.
+
+---
+
+## 3. Full 16-Step Expanded Institutional Architecture & Upgrade
+
+> **Updated: 2026-07-30**
+
+The MEGA7 prediction framework has been fully upgraded to a **16-Step Institutional Quantitative Pipeline**, porting all features from `M6` while fully calibrating every model for $7$ balls drawn out of $37$:
+
+- **`utils.py` Refactoring**: Added `max_candidates=14` safety capping to `generate_covering_wheel` to guarantee high memory efficiency and prevent combinatorial explosion on 7-ball tickets.
+- **`enhanced_features_and_metrics.py` & `12_enhanced_prediction_features_and_metrics.py`**: Added Periodicity Gap Regularity, Consecutive Streak & Cluster propensity, Hot/Cold Momentum differentials, Information Coefficient (IC) Spearman correlations, Chi-Squared ($df=36$) structural distribution fit score, $C(7,2)=21$ pair and $C(7,3)=35$ triple match rates, and theoretical hypergeometric wheel safety rates.
+- **`gnn_hawkes_meta_learning.py` & `13_gnn_hawkes_meta_learning_engine.py`**: Added 37-node Graph Neural Network (GNN) Message Passing Layer ($H^{(l+1)} = \text{ReLU}(\hat{A} H^{(l)} W^{(l)})$), Hawkes self-exciting point process combined with Jump-Diffusion hazard, Extreme Value Theory (EVT) draw sum volatility around theoretical mean sum $133.0$, and Multi-Output Neural Network Meta-Learner.
+- **`14_master_ai_meta_ensemble.py`**: Tail-Boosted Meta-Learner V3 harvesting all probability vectors across 19 sub-models, selecting optimal 7-ball tickets constrained by sum range $[105, 165]$, 3-zone coverage, and anti-clustering. Generates grand infographic dashboard (`step14_master_ai_meta_ensemble.png`).
+- **`15_randomness_audit_and_wheeling.py`**: NIST-style randomness audit suite (Chi-Square uniformity, serial lag-1 autocorrelation, runs test, Shannon entropy) and candidate pool Set Cover wheeling generator.
+- **`16_final_tabular_report_chart.py`**: Infographic 16-step summary table dashboard (`step16_final_tabular_report.png`).
+- **`self_improving_test_engine.py` & `walkforward_backtest.py`**: 20-draw walk-forward holdout optimization loop evaluating rank percentile gain against uniform random baseline ($\approx 1.3243$).
+

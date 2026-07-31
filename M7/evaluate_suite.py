@@ -84,9 +84,9 @@ def run_evaluation(test_window: int = 20):
     mod11 = importlib.util.module_from_spec(spec11)
     spec11.loader.exec_module(mod11)
 
-    spec12 = importlib.util.spec_from_file_location("mod12", "12_master_ai_meta_ensemble.py")
-    mod12 = importlib.util.module_from_spec(spec12)
-    spec12.loader.exec_module(mod12)
+    spec14 = importlib.util.spec_from_file_location("mod14", "14_master_ai_meta_ensemble.py")
+    mod14 = importlib.util.module_from_spec(spec14)
+    spec14.loader.exec_module(mod14)
 
     # Tracking arrays
     s6_top7_matches, s6_top14_matches, s6_ranks = [], [], []
@@ -95,7 +95,7 @@ def run_evaluation(test_window: int = 20):
     s9_top7_matches, s9_top14_matches, s9_wheel_wins, s9_ranks = [], [], [], []
     s10_top7_matches, s10_top14_matches, s10_wheel_wins, s10_ranks = [], [], [], []
     s11_top7_matches, s11_top14_matches, s11_wheel_wins, s11_ranks = [], [], [], []
-    s12_top7_matches, s12_top14_matches, s12_wheel_wins, s12_ranks = [], [], [], []
+    s14_top7_matches, s14_top14_matches, s14_wheel_wins, s14_ranks = [], [], [], []
 
     t0 = time.perf_counter()
     print(f"Evaluating from draw index {test_start} to {n_draws - 1}...\n")
@@ -239,27 +239,27 @@ def run_evaluation(test_window: int = 20):
                     break
         s11_wheel_wins.append(wheel_win11)
 
-        # ── STEP 12: Master AI Meta-Ensemble ──────────────────────────────────
-        sigs_dict12 = mod12.harvest_all_signals(train_df)
-        probas12, _, _ = mod12.meta_ai_blend(sigs_dict12)
+        # ── STEP 14: Master AI Meta-Ensemble ──────────────────────────────────
+        sigs_dict14 = mod14.harvest_all_signals(train_df)
+        probas14, _, _ = mod14.meta_ai_blend(sigs_dict14)
 
-        top7_12_set   = set((np.argsort(probas12)[::-1][:7] + 1).tolist())
-        top14_12_list = sorted((np.argsort(probas12)[::-1][:14] + 1).tolist())
-        top14_12_set  = set(top14_12_list)
+        top7_14_set   = set((np.argsort(probas14)[::-1][:7] + 1).tolist())
+        top14_14_list = sorted((np.argsort(probas14)[::-1][:14] + 1).tolist())
+        top14_14_set  = set(top14_14_list)
 
-        m14_count12 = len(top14_12_set & actual_set)
-        s12_top7_matches.append(len(top7_12_set & actual_set))
-        s12_top14_matches.append(m14_count12)
-        s12_ranks.append(get_rank_percentile(probas12, actual_draw))
+        m14_count14 = len(top14_14_set & actual_set)
+        s14_top7_matches.append(len(top7_14_set & actual_set))
+        s14_top14_matches.append(m14_count14)
+        s14_ranks.append(get_rank_percentile(probas14, actual_draw))
 
-        wheel_win12 = 0
-        if m14_count12 >= 3:
-            tickets12 = mod12.generate_covering_wheel(top14_12_list, ticket_size=7, match_guarantee=3)
-            for t in tickets12:
+        wheel_win14 = 0
+        if m14_count14 >= 3:
+            tickets14 = mod14.generate_covering_wheel(top14_14_list, ticket_size=7, match_guarantee=3)
+            for t in tickets14:
                 if len(set(t) & actual_set) >= 3:
-                    wheel_win12 = 1
+                    wheel_win14 = 1
                     break
-        s12_wheel_wins.append(wheel_win12)
+        s14_wheel_wins.append(wheel_win14)
 
     elapsed = time.perf_counter() - t0
     print(f"[OK] Evaluation completed in {elapsed:.1f}s\n")
@@ -304,11 +304,11 @@ def run_evaluation(test_window: int = 20):
     print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s11_wheel_wins)*100:.1f}% of draws")
     print(f"    Probability Rank Percentile    : {np.mean(s11_ranks):.1f}% (lower is better)")
     print()
-    print(f"  [STEP 12 — Master AI Meta-Ensemble (Steps 1-11 Fused)]")
-    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s12_top7_matches):.3f} / 7")
-    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s12_top14_matches):.3f} / 7 ({np.mean(s12_top14_matches)/7*100:.1f}%)")
-    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s12_wheel_wins)*100:.1f}% of draws")
-    print(f"    Probability Rank Percentile    : {np.mean(s12_ranks):.1f}% (lower is better)")
+    print(f"  [STEP 14 — Master AI Meta-Ensemble (Steps 1-13 Fused)]")
+    print(f"    Top-7 Ticket Avg Matches       : {np.mean(s14_top7_matches):.3f} / 7")
+    print(f"    Top-14 Pool Inclusion Avg      : {np.mean(s14_top14_matches):.3f} / 7 ({np.mean(s14_top14_matches)/7*100:.1f}%)")
+    print(f"    Wheeling Win Rate (Match 3+)   : {np.mean(s14_wheel_wins)*100:.1f}% of draws")
+    print(f"    Probability Rank Percentile    : {np.mean(s14_ranks):.1f}% (lower is better)")
     print("================================================================================")
 
 if __name__ == "__main__":

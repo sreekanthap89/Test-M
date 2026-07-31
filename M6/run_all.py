@@ -34,20 +34,22 @@ utils.set_session_folder(RUN_FOLDER)
 
 # ── Step definitions ──────────────────────────────────────────────────────────
 STEPS = [
-    ("Step 1 — Data Exploration",         "01_data_explorer.py"),
-    ("Step 2 — Frequency Analysis",       "02_frequency_analysis.py"),
-    ("Step 3 — Probability Distributions","03_probability_distributions.py"),
-    ("Step 4 — Monte Carlo Simulation",   "04_monte_carlo_simulation.py"),
-    ("Step 5 — Markov Chain",             "05_markov_chain.py"),
-    ("Step 6 — Prediction Report",        "06_prediction_report.py"),
-    ("Step 7 — Advanced Prediction",      "07_advanced_prediction.py"),
-    ("Step 8 — Deep Learning and Wheeling","08_deep_learning_and_wheeling.py"),
-    ("Step 9 — Ultra Stacking Ensemble",  "09_ultra_stacking_ensemble.py"),
-    ("Step 10 — Quantum Science Engine",  "10_advanced_quantum_signal_engine.py"),
-    ("Step 11 — BlackRock Quant Engine",  "11_blackrock_quant_engine.py"),
-    ("Step 12 — Master AI Meta-Ensemble", "12_master_ai_meta_ensemble.py"),
-    ("Step 13 — Randomness Audit & Wheeling Suite", "13_randomness_audit_and_wheeling.py"),
-    ("Step 14 — Final Tabular Infographic Report", "14_final_tabular_report_chart.py"),
+    ("Step 01 — Data Exploration",                 "01_data_explorer.py"),
+    ("Step 02 — Frequency Analysis",               "02_frequency_analysis.py"),
+    ("Step 03 — Probability Distributions",        "03_probability_distributions.py"),
+    ("Step 04 — Monte Carlo Simulation",           "04_monte_carlo_simulation.py"),
+    ("Step 05 — Markov Chain",                     "05_markov_chain.py"),
+    ("Step 06 — Prediction Report",                "06_prediction_report.py"),
+    ("Step 07 — Advanced Prediction",              "07_advanced_prediction.py"),
+    ("Step 08 — Deep Learning and Wheeling",       "08_deep_learning_and_wheeling.py"),
+    ("Step 09 — Ultra Stacking Ensemble",          "09_ultra_stacking_ensemble.py"),
+    ("Step 10 — Quantum Science Engine",          "10_advanced_quantum_signal_engine.py"),
+    ("Step 11 — BlackRock Quant Engine",          "11_blackrock_quant_engine.py"),
+    ("Step 12 — Feature & Metric Depth",          "12_enhanced_prediction_features_and_metrics.py"),
+    ("Step 13 — GNN & Hawkes Meta Engine",        "13_gnn_hawkes_meta_learning_engine.py"),
+    ("Step 14 — Master AI Meta-Ensemble",         "14_master_ai_meta_ensemble.py"),
+    ("Step 15 — Randomness Audit & Wheeling Suite", "15_randomness_audit_and_wheeling.py"),
+    ("Step 16 — Final Tabular Infographic Report",  "16_final_tabular_report_chart.py"),
 ]
 
 
@@ -65,7 +67,8 @@ def run_step(label: str, filename: str) -> bool:
         )
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        mod.main()
+        if hasattr(mod, "main"):
+            mod.main()
         elapsed = time.perf_counter() - t0
         print(f"\n  [OK] Finished in {elapsed:.1f}s")
         return True
@@ -138,13 +141,13 @@ def collect_results() -> dict:
     hot_nums   = sorted((numbers[deviations >= 20]).tolist())
     cold_nums  = sorted((numbers[deviations <= -20]).tolist())
 
-    # ── Dynamically harvest predictions from Steps 8-12 via Step 12 module ──
-    spec12 = importlib.util.spec_from_file_location("step12", "12_master_ai_meta_ensemble.py")
-    mod12 = importlib.util.module_from_spec(spec12)
-    spec12.loader.exec_module(mod12)
+    # ── Dynamically harvest predictions from Master AI Ensemble (Step 14) ──
+    spec14 = importlib.util.spec_from_file_location("step14", "14_master_ai_meta_ensemble.py")
+    mod14 = importlib.util.module_from_spec(spec14)
+    spec14.loader.exec_module(mod14)
 
-    signals_dict = mod12.harvest_all_signals(df)
-    meta_prob, _, _ = mod12.meta_ai_blend(signals_dict, df=df)
+    signals_dict = mod14.harvest_all_signals(df)
+    meta_prob, _, _ = mod14.meta_ai_blend(signals_dict, df=df)
 
     step7_ticket  = sorted((np.argsort(signals_dict["7. Step 7 Ensemble"])[::-1][:DRAW_SIZE] + 1).tolist())
     step8_ticket  = sorted((np.argsort(signals_dict["8. Step 8 MLP NN"])[::-1][:DRAW_SIZE] + 1).tolist())

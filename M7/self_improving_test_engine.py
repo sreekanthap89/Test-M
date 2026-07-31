@@ -1,9 +1,8 @@
 """
 ================================================================================
-self_improving_test_engine.py — EASY6 Self-Improving Test & Optimization Engine
+self_improving_test_engine.py — MEGA7 Self-Improving Test & Optimization Engine
 ================================================================================
-Executes a 7-Step Self-Improving Test Plan across a holdout dataset starting 
-on 20-Mar-26 (training dataset ending on 13-Mar-26).
+Executes a 7-Step Self-Improving Test Plan across a holdout dataset.
 
 Step 1: Run Predictions
 Step 2: Save Prediction Details (Numbers, Low/High, Odd/Even, Decade Buckets)
@@ -39,13 +38,13 @@ from enhanced_features_and_metrics import (
     calculate_expected_wheel_guarantee
 )
 
-BACKUP_FILE = "Emirates_Draw_EASY6_backup.csv"
+BACKUP_FILE = "Emirates_Draw_MEGA7_backup.csv"
 LOG_FILE = "self_improving_test_log.txt"
 JSON_LOG_FILE = "self_improving_test_results.json"
 
 
 def get_rank_percentile(prob_vector: np.ndarray, actual_winning: list) -> float:
-    """Returns average rank percentile (0.0 = rank #1 best, 100.0 = rank #39 worst)."""
+    """Returns average rank percentile (0.0 = rank #1 best, 100.0 = rank #37 worst)."""
     sorted_indices = np.argsort(prob_vector)[::-1]
     ranks = []
     for num in actual_winning:
@@ -55,15 +54,15 @@ def get_rank_percentile(prob_vector: np.ndarray, actual_winning: list) -> float:
 
 
 def compute_structural_stats(numbers: list) -> dict:
-    """Computes Low/High, Odd/Even, and Decade bucket counts for a 6-ball combination."""
-    low_count = sum(1 for n in numbers if n <= 19)
-    high_count = sum(1 for n in numbers if n > 19)
+    """Computes Low/High, Odd/Even, and Decade bucket counts for a 7-ball combination."""
+    low_count = sum(1 for n in numbers if n <= 18)
+    high_count = sum(1 for n in numbers if n > 18)
     odd_count = sum(1 for n in numbers if n % 2 != 0)
     even_count = sum(1 for n in numbers if n % 2 == 0)
     dec1 = sum(1 for n in numbers if 1 <= n <= 10)
     dec2 = sum(1 for n in numbers if 11 <= n <= 20)
     dec3 = sum(1 for n in numbers if 21 <= n <= 30)
-    dec4 = sum(1 for n in numbers if 31 <= n <= 39)
+    dec4 = sum(1 for n in numbers if 31 <= n <= 37)
     
     return {
         "low_high": f"{low_count}L / {high_count}H",
@@ -79,8 +78,8 @@ def compute_structural_stats(numbers: list) -> dict:
 
 def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
     """
-    Runs the multi-step prediction engine on the provided dataframe.
-    Dynamically imports models from Steps 6-12.
+    Runs the multi-step prediction engine on the provided dataframe for MEGA7.
+    Dynamically imports models from Steps 6-14.
     """
     # Import Step 6
     spec6 = importlib.util.spec_from_file_location("mod6", "06_prediction_report.py")
@@ -140,11 +139,11 @@ def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
     p_evt11 = mod11.evt_tail_hazard_signal(df, pool_size=POOL)
     p11_blackrock = (p_conf11 + p_metric11 + p_jump11 + p_kalman11 + p_hawkes11 + p_evt11) / 6.0
 
-    # Import Step 12
-    spec12 = importlib.util.spec_from_file_location("mod12", "14_master_ai_meta_ensemble.py")
-    mod12 = importlib.util.module_from_spec(spec12); spec12.loader.exec_module(mod12)
-    signals_dict = mod12.harvest_all_signals(df)
-    meta_prob, w_opt, _ = mod12.meta_ai_blend(signals_dict, df=df)
+    # Import Step 14
+    spec14 = importlib.util.spec_from_file_location("mod14", "14_master_ai_meta_ensemble.py")
+    mod14 = importlib.util.module_from_spec(spec14); spec14.loader.exec_module(mod14)
+    signals_dict = mod14.harvest_all_signals(df)
+    meta_prob, w_opt, _ = mod14.meta_ai_blend(signals_dict, df=df)
 
     # Apply custom weights if provided
     if custom_weights is not None:
@@ -166,7 +165,7 @@ def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
     step11_ticket = sorted((np.argsort(p11_blackrock)[::-1][:DRAW_SIZE] + 1).tolist())
     
     meta_top14_pool  = sorted((np.argsort(meta_prob)[::-1][:14] + 1).tolist())
-    meta_top6_ticket = mod12.select_optimal_ticket(meta_top14_pool, meta_prob, ticket_size=DRAW_SIZE, df=df)
+    meta_top7_ticket = mod14.select_optimal_ticket(meta_top14_pool, meta_prob, ticket_size=DRAW_SIZE, df=df)
 
     return {
         "signals_dict": signals_dict,
@@ -177,7 +176,7 @@ def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
         "step9_ticket": step9_ticket,
         "step10_ticket": step10_ticket,
         "step11_ticket": step11_ticket,
-        "meta_top6_ticket": meta_top6_ticket,
+        "meta_top7_ticket": meta_top7_ticket,
         "meta_top14_pool": meta_top14_pool,
         "model_probs": {
             "Step 6": p6_ens,
@@ -186,14 +185,14 @@ def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
             "Step 9": p9_stack,
             "Step 10": p10_quantum,
             "Step 11": p11_blackrock,
-            "Step 12 Meta": meta_prob
+            "Step 14 Meta": meta_prob
         }
     }
 
 
 def main():
     print("=" * 80)
-    print("  EASY6 SELF-IMPROVING TEST ENGINE — 20-DRAW WALK-FORWARD LOOP")
+    print("  MEGA7 SELF-IMPROVING TEST ENGINE — WALK-FORWARD OPTIMIZATION LOOP")
     print("=" * 80)
 
     # ── SETUP PHASE ──────────────────────────────────────────────────────────
@@ -221,15 +220,13 @@ def main():
     # Sort ascending by date
     parsed_asc = sorted(parsed, key=lambda x: pd.to_datetime(x[0]))
 
-    # Target holdout draws start on 20-Mar-26
-    cutoff_date = "2026-03-13"
-    start_holdout_date = "2026-03-20"
+    # Target holdout draws: last 20 draws
+    test_window = min(20, len(parsed_asc) // 4)
+    base_rows_asc = [x[1] for x in parsed_asc[:-test_window]]
+    holdout_tuples_asc = parsed_asc[-test_window:]
 
-    base_rows_asc = [x[1] for x in parsed_asc if x[0] <= cutoff_date]
-    holdout_tuples_asc = [x for x in parsed_asc if x[0] >= start_holdout_date]
-
-    print(f"  [*] Baseline training draws (up to {cutoff_date}): {len(base_rows_asc)}")
-    print(f"  [*] Holdout test draws (starting {start_holdout_date}): {len(holdout_tuples_asc)}")
+    print(f"  [*] Baseline training draws: {len(base_rows_asc)}")
+    print(f"  [*] Holdout test draws: {len(holdout_tuples_asc)}")
 
     # Write truncated baseline to CSV_FILE (ordered descending by date as expected by engine)
     base_rows_desc = base_rows_asc[::-1]
@@ -244,52 +241,48 @@ def main():
         log_handle.flush()
 
     log_print(f"================================================================================")
-    log_print(f"  EASY6 SELF-IMPROVING TEST LOG — STARTED {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log_print(f"  MEGA7 SELF-IMPROVING TEST LOG — STARTED {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     log_print(f"================================================================================")
-    log_print(f"Starting Line: Baseline training ends on 13-Mar-26 ({len(base_rows_asc)} draws)")
-    log_print(f"Holdout Sequence: {len(holdout_tuples_asc)} draws starting on 20-Mar-26\n")
+    log_print(f"Baseline Training Set: {len(base_rows_asc)} draws")
+    log_print(f"Holdout Sequence: {len(holdout_tuples_asc)} draws\n")
 
-    # Tracking metrics across iterations
     iteration_records = []
-    adaptive_model_weights = None  # Initially standard blending
+    adaptive_model_weights = None
 
-    # Dynamic memory performance accumulator
     model_performance_scores = {}
-
     start_time = time.perf_counter()
 
-    # ── THE IMPROVEMENT LOOP (REPEAT FOR EACH HOLDOUT DRAW) ───────────────────
+    # ── THE IMPROVEMENT LOOP ──────────────────────────────────────────────────
     for idx, (target_date, row_str) in enumerate(holdout_tuples_asc, start=1):
         log_print("-" * 80)
         log_print(f"  ITERATION {idx}/{len(holdout_tuples_asc)} — TARGET DRAW DATE: {target_date}")
         log_print("-" * 80)
 
-        # Load current active dataset
         df_current = load_data(CSV_FILE)
         log_print(f"  [Info] Training dataset contains {len(df_current)} historical draws.")
 
-        # ── Step 1: Run Predictions ──────────────────────────────────────────
+        # Step 1: Run Predictions
         log_print(f"\n  [Step 1] Running prediction engine on current training dataset...")
         pred_res = predict_for_dataset(df_current, custom_weights=adaptive_model_weights)
         
-        meta_ticket = pred_res["meta_top6_ticket"]
+        meta_ticket = pred_res["meta_top7_ticket"]
         meta_pool   = pred_res["meta_top14_pool"]
         meta_prob   = pred_res["meta_prob"]
 
-        # ── Step 2: Save Prediction Details ──────────────────────────────────
+        # Step 2: Save Prediction Details
         pred_stats = compute_structural_stats(meta_ticket)
         chi2_res = chi_squared_fit_test(meta_ticket, df_current)
         log_print(f"\n  [Step 2] Saving prediction details...")
-        log_print(f"    - Predicted Top-6 Ticket     : {meta_ticket}")
-        log_print(f"    - Predicted 14-Ball Candidate Pool: {meta_pool}")
+        log_print(f"    - Predicted Top-7 Ticket     : {meta_ticket}")
+        log_print(f"    - Predicted 14-Ball Pool     : {meta_pool}")
         log_print(f"    - Predicted Low/High Balance  : {pred_stats['low_high']}")
         log_print(f"    - Predicted Odd/Even Balance  : {pred_stats['odd_even']}")
         log_print(f"    - Predicted Decade Buckets    : {pred_stats['decade_buckets']}")
-        log_print(f"    - Chi2 Structural Fit Score  : {chi2_res['statistical_fit_score']}/100 (Chi2: {chi2_res['chi2_stat']})")
+        log_print(f"    - Chi2 Fit Score             : {chi2_res['statistical_fit_score']}/100")
 
-        # ── Step 3: Compare with Actual Results ──────────────────────────────
+        # Step 3: Compare with Actual Results
         parts = row_str.strip().split(",")
-        winning_nums = sorted([int(parts[i]) for i in range(2, 8)])
+        winning_nums = sorted([int(parts[i]) for i in range(2, 9)])
         actual_stats = compute_structural_stats(winning_nums)
 
         ticket_hits = len(set(meta_ticket).intersection(set(winning_nums)))
@@ -297,10 +290,9 @@ def main():
         avg_rank_pct = get_rank_percentile(meta_prob, winning_nums)
 
         match_rates = calculate_pair_triple_match_rate(meta_ticket, winning_nums)
-        wheel_guarantee = calculate_expected_wheel_guarantee(pool_size=14, actual_hits_in_pool=pool_hits)
+        wheel_guarantee = calculate_expected_wheel_guarantee(pool_size=14, target_k=3, ticket_size=7, actual_hits_in_pool=pool_hits)
 
-        # Wheeling test: generate 3-if-3 wheel from top-14 pool
-        wheel_lines = generate_covering_wheel(meta_pool)
+        wheel_lines = generate_covering_wheel(meta_pool, ticket_size=7, match_guarantee=3)
         max_wheel_hit = 0
         for line in wheel_lines:
             line_hit = len(set(line).intersection(set(winning_nums)))
@@ -312,28 +304,26 @@ def main():
         log_print(f"    - Actual Low/High Balance     : {actual_stats['low_high']}")
         log_print(f"    - Actual Odd/Even Balance     : {actual_stats['odd_even']}")
         log_print(f"    - Actual Decade Buckets       : {actual_stats['decade_buckets']}")
-        log_print(f"    - Top-6 Ticket Matches        : {ticket_hits} / 6")
-        log_print(f"    - 14-Ball Pool Matches        : {pool_hits} / 6")
+        log_print(f"    - Top-7 Ticket Matches        : {ticket_hits} / 7")
+        log_print(f"    - 14-Ball Pool Matches        : {pool_hits} / 7")
         log_print(f"    - Best Wheel Ticket Match     : Match-{max_wheel_hit}")
         log_print(f"    - Probability Rank Percentile : {avg_rank_pct:.2f}% (Lower is better)")
-        log_print(f"    - Pair Match Rate (C(6,2))    : {match_rates['pair_match_rate_pct']}% ({match_rates['pairs_hit']}/15 hit)")
-        log_print(f"    - Triple Match Rate (C(6,3))  : {match_rates['triple_match_rate_pct']}% ({match_rates['triples_hit']}/20 hit)")
-        log_print(f"    - Empirical Wheel Win Rate    : {wheel_guarantee['empirical_wheel_win']}%")
+        log_print(f"    - Pair Match Rate (C(7,2))    : {match_rates['pair_match_rate_pct']}% ({match_rates['pairs_hit']}/21 hit)")
+        log_print(f"    - Triple Match Rate (C(7,3))  : {match_rates['triple_match_rate_pct']}% ({match_rates['triples_hit']}/35 hit)")
 
         # Evaluate individual step hits & rank percentiles
         step_evals = {}
         for step_name, step_p in pred_res["model_probs"].items():
-            s_ticket = sorted((np.argsort(step_p)[::-1][:6] + 1).tolist())
+            s_ticket = sorted((np.argsort(step_p)[::-1][:7] + 1).tolist())
             s_hits = len(set(s_ticket).intersection(set(winning_nums)))
             s_rank = get_rank_percentile(step_p, winning_nums)
             step_evals[step_name] = {"hits": s_hits, "rank_pct": s_rank}
             
-            # Accumulate historical rank score (inverse rank percentage for weighting)
             prev = model_performance_scores.get(step_name, [])
             prev.append(s_rank)
             model_performance_scores[step_name] = prev
 
-        # ── Step 4: Identify Differences & Fix Strategy ──────────────────────
+        # Step 4: Identify Differences & Fix Strategy
         log_print(f"\n  [Step 4] Identifying differences and adjusting strategy rules...")
         
         lh_diff = "MATCH" if pred_stats['low_high'] == actual_stats['low_high'] else f"MISMATCH (Pred {pred_stats['low_high']} vs Actual {actual_stats['low_high']})"
@@ -341,35 +331,30 @@ def main():
         
         log_print(f"    - Structural Analysis: Low/High {lh_diff} | Odd/Even {oe_diff}")
 
-        # Best performing sub-models in this draw
         best_model = min(step_evals.items(), key=lambda x: x[1]['rank_pct'])
-        log_print(f"    - Top performing model on this draw: {best_model[0]} (Rank Pct: {best_model[1]['rank_pct']:.2f}%, Hits: {best_model[1]['hits']})")
+        log_print(f"    - Top performing model: {best_model[0]} (Rank Pct: {best_model[1]['rank_pct']:.2f}%, Hits: {best_model[1]['hits']})")
 
-        # Adjust Meta-Ensemble blending weights based on recency-weighted rank performance
-        log_print(f"    - Adjusting model weights using inverse-rank weighting...")
         new_weights = {}
         total_inv_rank = 0.0
         for name, rank_history in model_performance_scores.items():
-            if name == "Step 12 Meta":
+            if name == "Step 14 Meta":
                 continue
-            # Give higher weight to recent draws
             weights_arr = np.exp(np.linspace(-1, 0, len(rank_history)))
             avg_recent_rank = np.average(rank_history, weights=weights_arr)
             inv_rank = 1.0 / (avg_recent_rank + 1.0)
             new_weights[name] = inv_rank
             total_inv_rank += inv_rank
 
-        # Normalize weights
         for name in new_weights:
             new_weights[name] /= total_inv_rank
 
         adaptive_model_weights = new_weights
         log_print(f"    - Calibrated Model Weights: {json.dumps({k: round(v, 4) for k, v in adaptive_model_weights.items()})}")
 
-        # ── Step 5: Test the Adjustment ──────────────────────────────────────
+        # Step 5: Test the Adjustment
         log_print(f"\n  [Step 5] Re-testing updated logic against target draw ({target_date})...")
         adj_res = predict_for_dataset(df_current, custom_weights=adaptive_model_weights)
-        adj_ticket = adj_res["meta_top6_ticket"]
+        adj_ticket = adj_res["meta_top7_ticket"]
         adj_prob   = adj_res["meta_prob"]
         adj_hits   = len(set(adj_ticket).intersection(set(winning_nums)))
         adj_rank   = get_rank_percentile(adj_prob, winning_nums)
@@ -380,19 +365,17 @@ def main():
         log_print(f"    - Post-adjustment : Hits = {adj_hits}, Rank Percentile = {adj_rank:.2f}%")
         log_print(f"    - Verification Result: [{status_msg}] (Rank percentile change: {rank_diff:+.2f}%)")
 
-        # ── Step 6: Update Main Dataset ──────────────────────────────────────
-        log_print(f"\n  [Step 6] Updating main dataset with verified actual draw result ({target_date})...")
+        # Step 6: Update Main Dataset
+        log_print(f"\n  [Step 6] Updating main dataset with actual draw result ({target_date})...")
         with open(CSV_FILE, "r", encoding="utf-8") as f:
             cur_lines = f.readlines()
         
-        # Insert target draw right after header (since dataset is ordered descending by date)
         updated_lines = [cur_lines[0], row_str] + cur_lines[1:]
         with open(CSV_FILE, "w", encoding="utf-8") as f:
             f.writelines(updated_lines)
 
         log_print(f"  [+] Main dataset updated. Total training draws for next iteration: {len(cur_lines)}")
 
-        # Store iteration summary record
         iteration_records.append({
             "iteration": idx,
             "date": target_date,
@@ -411,21 +394,16 @@ def main():
             "step_evals": step_evals
         })
 
-        # ── Step 7: Repeat for Next Draw ─────────────────────────────────────
-        log_print(f"\n  [Step 7] Iteration {idx} complete. Moving to next draw in backup file...\n")
+        log_print(f"\n  [Step 7] Iteration {idx} complete. Moving to next draw...\n")
 
-    # ── FINAL RESTORATION & SUMMARY REPORT ────────────────────────────────────
+    # RESTORATION & SUMMARY
     elapsed_total = time.perf_counter() - start_time
-    
-    # Restore full CSV_FILE from BACKUP_FILE
     shutil.copyfile(BACKUP_FILE, CSV_FILE)
     log_print(f"\n[*] Restored full original dataset to {CSV_FILE}.")
 
-    # Save JSON summary log
     with open(JSON_LOG_FILE, "w", encoding="utf-8") as f:
         json.dump(iteration_records, f, indent=2)
 
-    # Compute overall statistics
     total_draws = len(iteration_records)
     avg_pre_rank = np.mean([r["pre_adj_rank_pct"] for r in iteration_records])
     avg_post_rank = np.mean([r["post_adj_rank_pct"] for r in iteration_records])
@@ -434,12 +412,12 @@ def main():
     wheel_match3_rate = sum(1 for r in iteration_records if r["wheel_max_hit"] >= 3) / total_draws * 100.0
 
     log_print("=" * 80)
-    log_print("  20-DRAW SELF-IMPROVING TEST ENGINE — FINAL RESULTS & ANALYSIS")
+    log_print("  MEGA7 SELF-IMPROVING TEST ENGINE — FINAL RESULTS & ANALYSIS")
     log_print("=" * 80)
     log_print(f"Total Iterations Processed      : {total_draws}")
     log_print(f"Total Execution Time            : {elapsed_total:.1f} seconds ({elapsed_total/total_draws:.1f}s/draw)")
-    log_print(f"Average Top-6 Ticket Hits       : {avg_ticket_hits:.2f} / 6 (vs uniform baseline ~0.923)")
-    log_print(f"Average 14-Ball Candidate Pool Hits : {avg_pool_hits:.2f} / 6")
+    log_print(f"Average Top-7 Ticket Hits       : {avg_ticket_hits:.2f} / 7 (vs uniform baseline ~1.324)")
+    log_print(f"Average 14-Ball Pool Hits       : {avg_pool_hits:.2f} / 7")
     log_print(f"3-if-3 Wheel Win Guarantee Rate  : {wheel_match3_rate:.1f}% (Match-3+ achieved)")
     log_print(f"Average Rank Percentile (Initial): {avg_pre_rank:.2f}%")
     log_print(f"Average Rank Percentile (Adapted): {avg_post_rank:.2f}% (Lower = Higher Accuracy)")

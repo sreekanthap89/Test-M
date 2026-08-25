@@ -1,7 +1,23 @@
 # CHANGELOG — Emirates Draw MEGA7 Suite Adaptation
-> Last updated: 2026-07-25
+> Last updated: 2026-08-03
 
 This document records the architectural and mathematical changes made to migrate the EASY6 prediction pipeline to the **Emirates Draw MEGA7** format (`M7/` directory).
+
+---
+
+## V4.1 Architecture & Tail-Volatility Upgrade (2026-08-03)
+- **Latest Draw Ingestion**: Ingested `2026-08-02` draw (`4, 5, 7, 11, 13, 17, 19`; Sum = 76, All-Low draw).
+- **Dynamic EVT Volatility Bounds**: Replaced static sum bounds `[100, 170]` in `14_master_ai_meta_ensemble.py` with dynamic EVT tail volatility bounds `[70, 190]`.
+- **Soft Constraint Scoring**: Replaced hard single-zone / high-ball rejections with continuous balance multipliers, allowing 2-zone coverage during extreme cluster regimes.
+- **Momentum-Aware Feedback Control**: Relaxed aggressive mean-reversion dampening in `07_advanced_prediction.py` Phase 4 feedback loop to prevent artificial penalization of active low/high zones.
+- **Robust Meta-Learner Feature Extraction**: Guarded `low_ratio` feature extraction in `gnn_hawkes_meta_learning.py` against column name variations.
+
+---
+
+## V4 Architecture Upgrade (2026-08-01)
+- **Step 10 Quantum Upgrade**: Ported Multi-Harmonic Wavelet Spectral Energy & Phase Resonance (`signal_fft_spectral`) to 7-ball / 37-pool framework.
+- **Step 14 & Step 12 Meta-Ensemble Fix**: Direct raw harvesting of standalone FFT Spectral and MaxEnt Entropy signals into 21-channel feature matrix; upgraded Meta-Learner with Entropy-Gated Meta Blending.
+- **BlackRock Quant Integration**: Integrated FFT Phase Stability into Information Coefficient (IC) fusion and Risk-Parity weighting.
 
 ---
 

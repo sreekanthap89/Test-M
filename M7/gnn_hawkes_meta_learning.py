@@ -230,7 +230,12 @@ class MetaLearningWeightPredictor:
                 corrs.append(corr if not np.isnan(corr) else 0.05)
             ic_scores.append(np.mean(corrs))
 
-        low_ratio = df["n_low"].iloc[-10:].mean() / float(DRAW_SIZE) if len(df) >= 10 else 0.5
+        if "n_low" in df.columns:
+            low_ratio = df["n_low"].iloc[-10:].mean() / float(DRAW_SIZE) if len(df) >= 10 else 0.5
+        elif "Low" in df.columns:
+            low_ratio = pd.to_numeric(df["Low"].iloc[-10:], errors="coerce").mean() / float(DRAW_SIZE) if len(df) >= 10 else 0.5
+        else:
+            low_ratio = df["numbers"].iloc[-10:].apply(lambda d: sum(1 for b in d if b <= 18)).mean() / float(DRAW_SIZE) if len(df) >= 10 else 0.5
 
         meta_feat = np.concatenate([variances, ic_scores, [low_ratio]])
         return meta_feat
@@ -259,10 +264,12 @@ class MetaLearningWeightPredictor:
 
         raw_weights = np.array([ic_dict[i] for i in range(K)])
         
-        # Boost GNN, Hawkes, and Quant models
+        # Boost GNN, Hawkes, BlackRock, FFT Spectral, and Quantum models
         for i, name in enumerate(names):
-            if any(k in name for k in ["GNN", "Hawkes", "BlackRock", "Quantum", "Momentum"]):
-                raw_weights[i] *= 1.8
+            if any(k in name for k in ["FFT", "Spectral", "MaxEnt", "Quantum"]):
+                raw_weights[i] *= 2.2
+            elif any(k in name for k in ["GNN", "Hawkes", "BlackRock", "Momentum"]):
+                raw_weights[i] *= 1.6
 
         opt_weights = raw_weights / raw_weights.sum()
         return opt_weights

@@ -245,9 +245,9 @@ class MetaLearningWeightPredictor:
         matrix = np.array(list(signals_dict.values()))
         K = len(names)
 
-        # Baseline IC weights
+        # Baseline IC weights over recent draws
         ic_dict = {}
-        recent_draws = df["numbers"].iloc[-10:].tolist() if len(df) >= 10 else df["numbers"].tolist()
+        recent_draws = df["numbers"].iloc[-15:].tolist() if len(df) >= 15 else df["numbers"].tolist()
         for idx, p_vec in enumerate(matrix):
             corrs = []
             for d in recent_draws:
@@ -260,10 +260,16 @@ class MetaLearningWeightPredictor:
 
         raw_weights = np.array([ic_dict[i] for i in range(K)])
         
-        # Boost GNN, Hawkes, and Quant models
+        # Boost high-performing structural, spectral, Hawkes, and relational signals
         for i, name in enumerate(names):
-            if any(k in name for k in ["GNN", "Hawkes", "BlackRock", "Quantum", "Momentum"]):
-                raw_weights[i] *= 1.8
+            if any(k in name for k in ["FFT", "Spectral", "Pair Lift"]):
+                raw_weights[i] *= 2.8
+            elif any(k in name for k in ["GNN", "Hawkes", "BlackRock Hawkes", "HRP", "Quantum"]):
+                raw_weights[i] *= 2.2
+            elif any(k in name for k in ["Momentum", "Gap Regularity", "Kalman"]):
+                raw_weights[i] *= 1.5
+            elif any(k in name for k in ["Streak", "MLP NN", "Cold/Due"]):
+                raw_weights[i] *= 0.7  # Demote overfitted static regressors
 
         opt_weights = raw_weights / raw_weights.sum()
         return opt_weights

@@ -1,8 +1,16 @@
 # CHANGELOG — Emirates Draw EASY6 Suite Architecture & Upgrade
 
-> Last updated: 2026-07-28
+> Last updated: 2026-08-01
 
 This document records the architectural and mathematical enhancements implemented in the **Emirates Draw EASY6** prediction pipeline (`M6/` directory), porting advanced multi-model institutional quant features from the `M7` project while calibrating parameters for 6 balls drawn out of 39.
+
+---
+
+## V4 Architecture Upgrade (2026-08-01)
+- **New Draw Incorporation**: Added draw **31 Jul 2026** (`4, 6, 9, 15, 28, 38`) as Draw #200.
+- **Step 10 Quantum Upgrade**: Implemented Multi-Harmonic Wavelet Spectral Energy & Phase Resonance in `10_advanced_quantum_signal_engine.py`.
+- **Step 14 & Step 12 Meta-Ensemble Fix**: Direct raw harvesting of standalone FFT Spectral and MaxEnt Entropy signals into 23-channel feature matrix; upgraded Meta-Learner with Entropy-Gated Meta Blending to prevent momentum sticky bias.
+- **BlackRock Quant Integration**: Integrated FFT Phase Stability into Information Coefficient (IC) fusion and Risk-Parity weighting.
 
 ---
 

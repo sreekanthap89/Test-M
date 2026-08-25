@@ -36,23 +36,31 @@ SEED = 42
 
 def signal_fft_spectral(df, pool_size=POOL):
     """
-    Computes 1D Fast Fourier Transform over the binary arrival time-series
-    of each ball to measure peak spectral energy and phase resonance.
+    Computes 1D Fast Fourier Transform over short and long window binary arrival
+    time-series of each ball to measure peak spectral energy and phase resonance.
     """
     draws = df["numbers"].tolist()
     n_draws = len(draws)
     fft_probs = np.zeros(pool_size)
 
     for b in range(1, pool_size + 1):
-        ts = np.array([1.0 if b in draw else 0.0 for draw in draws])
+        ts_full = np.array([1.0 if b in draw else 0.0 for draw in draws])
+        ts_short = ts_full[-30:] if n_draws >= 30 else ts_full
 
-        fft_vals = fft(ts - ts.mean())
-        power_spectrum = np.abs(fft_vals[:n_draws // 2])**2
+        # Long-term spectrum
+        fft_full = fft(ts_full - ts_full.mean())
+        power_full = np.abs(fft_full[:len(ts_full) // 2])**2
+        peak_full = np.max(power_full) if len(power_full) > 0 else 0.0
 
-        peak_energy = np.max(power_spectrum) if len(power_spectrum) > 0 else 0.0
-        recent_phase = ts[-3:].sum()
+        # Short-term spectrum (transient burst)
+        fft_short = fft(ts_short - ts_short.mean())
+        power_short = np.abs(fft_short[:len(ts_short) // 2])**2
+        peak_short = np.max(power_short) if len(power_short) > 0 else 0.0
 
-        fft_probs[b - 1] = peak_energy * (1.0 + 0.2 * recent_phase)
+        recent_phase = ts_full[-3:].sum()
+        phase_boost = 1.0 + 0.25 * recent_phase
+
+        fft_probs[b - 1] = (0.6 * peak_full + 0.4 * peak_short) * phase_boost
 
     if fft_probs.sum() > 0:
         fft_probs /= fft_probs.sum()

@@ -1,0 +1,806 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "date": "2023-07-23",
+      "actual_draw": [
+        4,
+        9,
+        18,
+        30,
+        32,
+        33,
+        36
+      ],
+      "predicted_ticket": [
+        6,
+        7,
+        10,
+        20,
+        21,
+        23,
+        33
+      ],
+      "predicted_pool": [
+        5,
+        6,
+        7,
+        10,
+        12,
+        13,
+        15,
+        20,
+        21,
+        23,
+        27,
+        31,
+        33,
+        36
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 2,
+      "rank_percentile": 10.32,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_20-45-12/\n  Steps to run  : 16\n  Started at    : 2026-08-04 20:45:12\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 156\n  Date range         : 2023-08-06  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1092\n  Mean                   : 18.90  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.41\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.3  (theoretical \u2248 133.0)\n  Sum  std    : 25.8\n  Sum  range  : 63 \u2013 192\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 27.9\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_20-45-12/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.7s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 156 draws of 7 numbers each, total balls drawn = 1092.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1092 / 37 = 29.51\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 2,
+      "date": "2023-07-16",
+      "actual_draw": [
+        1,
+        4,
+        6,
+        11,
+        22,
+        24,
+        25
+      ],
+      "predicted_ticket": [
+        7,
+        10,
+        14,
+        21,
+        22,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 3,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_20-50-59/\n  Steps to run  : 16\n  Started at    : 2026-08-04 20:50:59\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_20-50-59/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.4s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 3,
+      "date": "2023-07-09",
+      "actual_draw": [
+        2,
+        5,
+        18,
+        19,
+        28,
+        32,
+        34
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 3,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_20-57-41/\n  Steps to run  : 16\n  Started at    : 2026-08-04 20:57:41\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_20-57-41/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.3s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 4,
+      "date": "2023-07-02",
+      "actual_draw": [
+        10,
+        16,
+        17,
+        18,
+        29,
+        31,
+        35
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 0,
+      "pool_hits": 2,
+      "rank_percentile": 11.11,
+      "success": false,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-03-05/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:03:05\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-03-05/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.9s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 5,
+      "date": "2023-06-25",
+      "actual_draw": [
+        7,
+        17,
+        21,
+        22,
+        31,
+        32,
+        37
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        10,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        6,
+        7,
+        10,
+        11,
+        14,
+        17,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 2,
+      "pool_hits": 4,
+      "rank_percentile": 11.51,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-08-26/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:08:26\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 157\n  Date range         : 2023-07-30  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1099\n  Mean                   : 18.92  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.40\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.4  (theoretical \u2248 133.0)\n  Sum  std    : 25.7\n  Sum  range  : 63 \u2013 192\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 27.9\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-08-26/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.0s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 157 draws of 7 numbers each, total balls drawn = 1099.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1099 / 37 = 29.70\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 6,
+      "date": "2023-06-18",
+      "actual_draw": [
+        4,
+        5,
+        7,
+        13,
+        17,
+        24,
+        30
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        10,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        6,
+        7,
+        10,
+        11,
+        14,
+        17,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 2,
+      "rank_percentile": 11.51,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-13-52/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:13:52\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 157\n  Date range         : 2023-07-30  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1099\n  Mean                   : 18.92  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.40\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.4  (theoretical \u2248 133.0)\n  Sum  std    : 25.7\n  Sum  range  : 63 \u2013 192\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 27.9\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-13-52/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.7s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 157 draws of 7 numbers each, total balls drawn = 1099.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1099 / 37 = 29.70\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 7,
+      "date": "2023-06-11",
+      "actual_draw": [
+        1,
+        7,
+        9,
+        14,
+        16,
+        19,
+        21
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        10,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        6,
+        7,
+        10,
+        11,
+        14,
+        17,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 2,
+      "pool_hits": 3,
+      "rank_percentile": 11.51,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-19-18/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:19:18\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 157\n  Date range         : 2023-07-30  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1099\n  Mean                   : 18.92  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.40\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.4  (theoretical \u2248 133.0)\n  Sum  std    : 25.7\n  Sum  range  : 63 \u2013 192\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 27.9\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-19-18/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.5s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 157 draws of 7 numbers each, total balls drawn = 1099.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1099 / 37 = 29.70\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 8,
+      "date": "2023-06-04",
+      "actual_draw": [
+        3,
+        8,
+        12,
+        17,
+        24,
+        27,
+        36
+      ],
+      "predicted_ticket": [
+        7,
+        10,
+        14,
+        21,
+        22,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 1,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-24-39/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:24:39\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 157\n  Date range         : 2023-07-30  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1099\n  Mean                   : 18.92  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.40\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.4  (theoretical \u2248 133.0)\n  Sum  std    : 25.7\n  Sum  range  : 63 \u2013 192\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 27.9\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-24-39/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.0s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 157 draws of 7 numbers each, total balls drawn = 1099.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1099 / 37 = 29.70\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 9,
+      "date": "2023-05-28",
+      "actual_draw": [
+        1,
+        7,
+        12,
+        14,
+        15,
+        18,
+        22
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 2,
+      "pool_hits": 4,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-30-05/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:30:05\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-30-05/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.6s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 10,
+      "date": "2023-05-21",
+      "actual_draw": [
+        8,
+        9,
+        22,
+        23,
+        27,
+        29,
+        37
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 2,
+      "pool_hits": 3,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-35-45/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:35:45\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-35-45/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 2.0s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 11,
+      "date": "2023-05-14",
+      "actual_draw": [
+        3,
+        4,
+        18,
+        22,
+        27,
+        33,
+        36
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 4,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-39-38/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:39:38\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-39-38/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.6s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 12,
+      "date": "2023-05-07",
+      "actual_draw": [
+        3,
+        4,
+        24,
+        26,
+        27,
+        33,
+        36
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 3,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-43-23/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:43:23\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-43-23/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.7s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 13,
+      "date": "2023-04-30",
+      "actual_draw": [
+        1,
+        2,
+        8,
+        9,
+        14,
+        29,
+        32
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 2,
+      "pool_hits": 2,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-47-05/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:47:05\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-47-05/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.6s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 14,
+      "date": "2023-04-23",
+      "actual_draw": [
+        1,
+        8,
+        9,
+        22,
+        28,
+        34,
+        35
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 0,
+      "pool_hits": 2,
+      "rank_percentile": 11.11,
+      "success": false,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-50-47/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:50:47\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-50-47/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.7s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 15,
+      "date": "2023-04-16",
+      "actual_draw": [
+        3,
+        26,
+        31,
+        33,
+        34,
+        35,
+        37
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 0,
+      "pool_hits": 1,
+      "rank_percentile": 11.11,
+      "success": false,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-54-33/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:54:33\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-54-33/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.6s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 16,
+      "date": "2023-04-09",
+      "actual_draw": [
+        8,
+        12,
+        21,
+        22,
+        25,
+        34,
+        37
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 1,
+      "pool_hits": 2,
+      "rank_percentile": 11.11,
+      "success": true,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_21-58-14/\n  Steps to run  : 16\n  Started at    : 2026-08-04 21:58:14\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_21-58-14/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.6s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    },
+    {
+      "iteration": 17,
+      "date": "2023-04-02",
+      "actual_draw": [
+        8,
+        9,
+        11,
+        13,
+        19,
+        33,
+        36
+      ],
+      "predicted_ticket": [
+        2,
+        7,
+        14,
+        20,
+        21,
+        23,
+        27
+      ],
+      "predicted_pool": [
+        2,
+        4,
+        7,
+        10,
+        11,
+        14,
+        18,
+        20,
+        21,
+        22,
+        23,
+        26,
+        27,
+        28
+      ],
+      "ticket_hits": 0,
+      "pool_hits": 1,
+      "rank_percentile": 11.11,
+      "success": false,
+      "adaptive_weights": {
+        "Step 14": 1.0
+      },
+      "run_all_ok": true,
+      "run_all_output_excerpt": "\n==============================================================\n  EMIRATES DRAW MEGA7 \u2014 FULL PREDICTION RUN\n==============================================================\n  Output folder : runs\\2026-08-04_22-01-57/\n  Steps to run  : 16\n  Started at    : 2026-08-04 22:01:57\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 01 \u2014 Data Exploration\n  File: 01_data_explorer.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  DATASET OVERVIEW \u2014 EMIRATES DRAW MEGA7\n============================================================\n  Total draws loaded : 172\n  Date range         : 2023-04-16  \u2192  2026-07-26\n  Columns            : ['Draw', 'Date', 'Winning Number 1', '2', '3', '4', '5', '6', '7', 'From Last', 'Low', 'High', 'Odd', 'Even', '1-10', '11-20', '21-30', '31-40', 'numbers']\n\n============================================================\n  CONCEPT 1 \u2014 Descriptive Statistics\n============================================================\n\n  Descriptive statistics summarise the 'shape' of your data.\n  For MEGA7, numbers are drawn from 1\u201337.\n  If the draw is truly random the mean of all drawn numbers\n  should be close to 19.0 (the midpoint of 1\u201337).\n\n  Total individual draws : 1204\n  Mean                   : 18.93  (expected \u2248 19.0 if uniform)\n  Median                 : 19.0\n  Std deviation          : 10.49\n  Min / Max              : 1 / 37\n\n============================================================\n  CONCEPT 2 \u2014 Draw Sums\n============================================================\n\n  The SUM of the 7 drawn numbers per draw is useful because:\n    - If numbers are truly random the sum should follow a\n      bell-curve (Normal distribution) centred around 7 \u00d7 19.0 = 133.0.\n    - Consistent deviations hint at biases worth modelling.\n\n  Sum  mean   : 132.5  (theoretical \u2248 133.0)\n  Sum  std    : 26.4\n  Sum  range  : 63 \u2013 199\n\n============================================================\n  CONCEPT 3 \u2014 Draw Range (spread)\n============================================================\n\n  Range = highest number \u2212 lowest number in one draw.\n  A small range means all 7 numbers clustered tightly.\n  A large range means numbers spread across the full pool.\n  Most draws should land in the middle.\n\n  Range  mean : 28.0\n  Range  std  : 4.5\n  Range  min  : 16\n  Range  max  : 35\n\n  Chart saved -> runs\\2026-08-04_22-01-57/step1_data_exploration.png\n\n============================================================\n  WHAT YOU LEARNED IN STEP 1\n============================================================\n\n  \u2714  How to load and clean real-world MEGA7 CSV data with pandas\n  \u2714  What descriptive statistics tell you (mean, std, range)\n  \u2714  How to check whether data looks 'random' vs biased\n  \u2714  How to visualise distributions with histograms and box-plots\n\n  NEXT STEP \u2192 Run 02_frequency_analysis.py\n\n\n  [OK] Finished in 1.6s\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  Step 02 \u2014 Frequency Analysis\n  File: 02_frequency_analysis.py\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n============================================================\n  CONCEPT 1 \u2014 Expected vs Actual Frequency\n============================================================\n\n  In 172 draws of 7 numbers each, total balls drawn = 1204.\n  With 37 numbers in the pool, if the draw is perfectly uniform:\n\n      Expected frequency per number = 1204 / 37 = 32.54\n\n  Any number that appears significantly more is called 'hot'.\n  Any number that appears significantly less is called 'cold'.\n  Whether these differences are real or just random noise is\n  tested with the Chi-Squared (\u03c7\u00b2) test.\n\n\n============================================================\n  CONCEPT 2 \u2014 Chi-Squared Goodness-of-Fit Test\n============================================================\n\n  The Chi-Squared test answers: \"Is the difference between what\n  we observed and what we expected due to chance, or is it real?\"\n\n    H\u2080 (null"
+    }
+  ],
+  "adaptive_weights": {
+    "Step 14": 1.0
+  }
+}

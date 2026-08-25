@@ -1,5 +1,5 @@
 ================================================================================
-MEGA7 WALK-FORWARD SELF-IMPROVING BACKTEST LOG — 2026-07-30 18:04:31
+MEGA7 WALK-FORWARD SELF-IMPROVING BACKTEST LOG — 2026-08-04 19:43:42
 ================================================================================
 Holdout Window: Last 20 Draws
 Uniform Random Baseline: 1.324 matches / draw
@@ -11,12 +11,12 @@ ITERATION LOGS (WALK-FORWARD PROGRESSION)
 Holdout Draw 01/20 [2026-03-15] — Train Size: 156 draws
   Actual Numbers : [5, 10, 14, 17, 21, 22, 30]
   Step 6 Ticket  : [7, 8, 10, 22, 26, 27, 28]  (Hits: 2/7, Rank: 33.3%)
-  Step 7 Ticket  : [2, 4, 12, 22, 23, 34, 35]  (Hits: 1/7, Rank: 53.6%)
+  Step 7 Ticket  : [2, 4, 12, 22, 23, 34, 35]  (Hits: 1/7, Rank: 54.0%)
   Step 8 Ticket  : [4, 10, 12, 13, 23, 34, 36]  (Hits: 1/7, Rank: 46.4%)
   Step 9 Ticket  : [2, 11, 16, 25, 26, 29, 34]  (Hits: 0/7, Rank: 52.4%)
   Step 10 Ticket : [9, 10, 12, 14, 26, 29, 31]  (Hits: 2/7, Rank: 53.2%)
   Step 11 Ticket : [11, 12, 16, 21, 25, 29, 31]  (Hits: 1/7, Rank: 48.4%)
-  Step 14 Ticket : [11, 12, 15, 21, 25, 29, 31]  (Hits: 1/7, Rank: 52.8%)
+  Step 14 Ticket : [11, 12, 21, 25, 26, 29, 31]  (Hits: 1/7, Rank: 53.2%)
   Step 14 14-Pool: [10, 11, 12, 15, 16, 20, 21, 24, 25, 26, 28, 29, 31, 32]  (Recall: 2/7 = 28.6%)
   Step 15 Wheel  : 19 Tickets (Max Match: 2, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
@@ -26,9 +26,9 @@ Holdout Draw 02/20 [2026-03-22] — Train Size: 157 draws
   Step 7 Ticket  : [2, 4, 12, 13, 23, 34, 35]  (Hits: 3/7, Rank: 41.7%)
   Step 8 Ticket  : [3, 4, 11, 20, 30, 31, 37]  (Hits: 2/7, Rank: 46.0%)
   Step 9 Ticket  : [2, 3, 10, 11, 26, 29, 30]  (Hits: 1/7, Rank: 49.2%)
-  Step 10 Ticket : [10, 12, 14, 21, 28, 29, 31]  (Hits: 1/7, Rank: 54.0%)
+  Step 10 Ticket : [10, 12, 14, 15, 21, 29, 31]  (Hits: 1/7, Rank: 53.2%)
   Step 11 Ticket : [10, 12, 14, 16, 21, 29, 31]  (Hits: 1/7, Rank: 56.3%)
-  Step 14 Ticket : [10, 12, 14, 21, 29, 30, 31]  (Hits: 1/7, Rank: 52.0%)
+  Step 14 Ticket : [10, 12, 14, 21, 29, 30, 31]  (Hits: 1/7, Rank: 52.4%)
   Step 14 14-Pool: [5, 10, 11, 12, 14, 15, 16, 21, 22, 25, 26, 29, 30, 31]  (Recall: 1/7 = 14.3%)
   Step 15 Wheel  : 19 Tickets (Max Match: 1, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
@@ -38,10 +38,10 @@ Holdout Draw 03/20 [2026-03-29] — Train Size: 158 draws
   Step 7 Ticket  : [2, 3, 19, 27, 34, 35, 37]  (Hits: 1/7, Rank: 61.5%)
   Step 8 Ticket  : [5, 7, 14, 17, 22, 28, 32]  (Hits: 1/7, Rank: 68.7%)
   Step 9 Ticket  : [1, 10, 16, 21, 26, 29, 31]  (Hits: 1/7, Rank: 67.5%)
-  Step 10 Ticket : [10, 12, 14, 18, 20, 21, 31]  (Hits: 2/7, Rank: 58.7%)
+  Step 10 Ticket : [10, 12, 14, 18, 20, 29, 31]  (Hits: 1/7, Rank: 59.9%)
   Step 11 Ticket : [10, 12, 17, 20, 21, 29, 31]  (Hits: 1/7, Rank: 54.0%)
-  Step 14 Ticket : [10, 12, 17, 20, 21, 29, 31]  (Hits: 1/7, Rank: 54.4%)
-  Step 14 14-Pool: [10, 12, 14, 16, 17, 18, 20, 21, 23, 25, 26, 29, 30, 31]  (Recall: 2/7 = 28.6%)
+  Step 14 Ticket : [10, 12, 17, 20, 21, 29, 31]  (Hits: 1/7, Rank: 55.6%)
+  Step 14 14-Pool: [10, 12, 13, 14, 16, 17, 18, 20, 21, 25, 26, 29, 30, 31]  (Recall: 2/7 = 28.6%)
   Step 15 Wheel  : 19 Tickets (Max Match: 2, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
 Holdout Draw 04/20 [2026-04-05] — Train Size: 159 draws
@@ -52,7 +52,7 @@ Holdout Draw 04/20 [2026-04-05] — Train Size: 159 draws
   Step 9 Ticket  : [4, 7, 16, 18, 21, 26, 29]  (Hits: 2/7, Rank: 52.4%)
   Step 10 Ticket : [10, 12, 14, 18, 20, 21, 31]  (Hits: 1/7, Rank: 56.7%)
   Step 11 Ticket : [10, 11, 12, 18, 20, 21, 29]  (Hits: 1/7, Rank: 61.5%)
-  Step 14 Ticket : [10, 11, 12, 18, 20, 21, 29]  (Hits: 1/7, Rank: 62.3%)
+  Step 14 Ticket : [7, 10, 11, 12, 18, 20, 21]  (Hits: 2/7, Rank: 62.3%)
   Step 14 14-Pool: [6, 7, 10, 11, 12, 14, 17, 18, 20, 21, 25, 29, 31, 36]  (Recall: 2/7 = 28.6%)
   Step 15 Wheel  : 19 Tickets (Max Match: 2, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
@@ -62,9 +62,9 @@ Holdout Draw 05/20 [2026-04-12] — Train Size: 160 draws
   Step 7 Ticket  : [1, 2, 3, 18, 19, 28, 35]  (Hits: 1/7, Rank: 49.2%)
   Step 8 Ticket  : [1, 10, 13, 17, 18, 24, 25]  (Hits: 2/7, Rank: 57.5%)
   Step 9 Ticket  : [7, 10, 16, 18, 20, 27, 31]  (Hits: 1/7, Rank: 58.7%)
-  Step 10 Ticket : [7, 10, 12, 18, 21, 31, 32]  (Hits: 3/7, Rank: 37.7%)
+  Step 10 Ticket : [7, 10, 12, 18, 21, 31, 32]  (Hits: 3/7, Rank: 38.1%)
   Step 11 Ticket : [5, 7, 10, 18, 20, 21, 32]  (Hits: 2/7, Rank: 40.9%)
-  Step 14 Ticket : [5, 7, 10, 12, 18, 21, 32]  (Hits: 3/7, Rank: 36.9%)
+  Step 14 Ticket : [5, 7, 10, 12, 18, 21, 32]  (Hits: 3/7, Rank: 38.5%)
   Step 14 14-Pool: [5, 7, 10, 11, 12, 14, 17, 18, 20, 21, 29, 31, 32, 36]  (Recall: 4/7 = 57.1%)
   Step 15 Wheel  : 19 Tickets (Max Match: 4, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
@@ -76,8 +76,8 @@ Holdout Draw 06/20 [2026-04-19] — Train Size: 161 draws
   Step 9 Ticket  : [9, 10, 12, 14, 18, 21, 26]  (Hits: 1/7, Rank: 39.3%)
   Step 10 Ticket : [7, 10, 12, 14, 18, 21, 31]  (Hits: 1/7, Rank: 59.9%)
   Step 11 Ticket : [6, 7, 12, 14, 18, 21, 25]  (Hits: 1/7, Rank: 56.0%)
-  Step 14 Ticket : [6, 7, 10, 12, 14, 18, 21]  (Hits: 2/7, Rank: 56.0%)
-  Step 14 14-Pool: [5, 6, 7, 9, 10, 11, 12, 14, 18, 21, 25, 29, 31, 32]  (Recall: 3/7 = 42.9%)
+  Step 14 Ticket : [6, 7, 10, 12, 14, 18, 21]  (Hits: 2/7, Rank: 55.2%)
+  Step 14 14-Pool: [5, 6, 7, 9, 10, 11, 12, 14, 18, 20, 21, 25, 31, 32]  (Recall: 3/7 = 42.9%)
   Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 07/20 [2026-04-26] — Train Size: 162 draws
@@ -86,10 +86,10 @@ Holdout Draw 07/20 [2026-04-26] — Train Size: 162 draws
   Step 7 Ticket  : [2, 3, 18, 21, 26, 28, 35]  (Hits: 3/7, Rank: 43.3%)
   Step 8 Ticket  : [4, 9, 29, 30, 32, 33, 35]  (Hits: 1/7, Rank: 46.8%)
   Step 9 Ticket  : [1, 7, 10, 18, 21, 24, 27]  (Hits: 2/7, Rank: 49.2%)
-  Step 10 Ticket : [6, 7, 10, 12, 18, 21, 27]  (Hits: 3/7, Rank: 41.3%)
+  Step 10 Ticket : [6, 7, 10, 12, 18, 21, 27]  (Hits: 3/7, Rank: 43.3%)
   Step 11 Ticket : [6, 7, 10, 11, 12, 18, 21]  (Hits: 3/7, Rank: 40.1%)
-  Step 14 Ticket : [6, 7, 10, 11, 12, 18, 21]  (Hits: 3/7, Rank: 42.1%)
-  Step 14 14-Pool: [1, 5, 6, 7, 9, 10, 11, 12, 14, 18, 21, 24, 25, 27]  (Recall: 3/7 = 42.9%)
+  Step 14 Ticket : [6, 7, 10, 11, 18, 21, 27]  (Hits: 3/7, Rank: 42.5%)
+  Step 14 14-Pool: [1, 6, 7, 9, 10, 11, 12, 14, 18, 21, 24, 25, 27, 32]  (Recall: 3/7 = 42.9%)
   Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 08/20 [2026-05-03] — Train Size: 163 draws
@@ -98,9 +98,9 @@ Holdout Draw 08/20 [2026-05-03] — Train Size: 163 draws
   Step 7 Ticket  : [2, 8, 10, 12, 26, 28, 35]  (Hits: 2/7, Rank: 45.6%)
   Step 8 Ticket  : [1, 10, 18, 20, 23, 26, 30]  (Hits: 0/7, Rank: 65.9%)
   Step 9 Ticket  : [2, 6, 10, 18, 21, 26, 27]  (Hits: 1/7, Rank: 38.1%)
-  Step 10 Ticket : [6, 7, 10, 14, 18, 21, 31]  (Hits: 2/7, Rank: 29.4%)
+  Step 10 Ticket : [6, 7, 10, 14, 18, 21, 31]  (Hits: 2/7, Rank: 29.0%)
   Step 11 Ticket : [6, 10, 11, 18, 21, 31, 34]  (Hits: 2/7, Rank: 31.3%)
-  Step 14 Ticket : [6, 10, 11, 18, 21, 31, 34]  (Hits: 2/7, Rank: 31.7%)
+  Step 14 Ticket : [6, 10, 11, 18, 21, 31, 34]  (Hits: 2/7, Rank: 31.0%)
   Step 14 14-Pool: [6, 7, 10, 11, 12, 14, 18, 21, 24, 25, 27, 30, 31, 34]  (Recall: 4/7 = 57.1%)
   Step 15 Wheel  : 19 Tickets (Max Match: 4, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ Holdout Draw 09/20 [2026-05-10] — Train Size: 164 draws
   Step 7 Ticket  : [2, 8, 15, 16, 26, 29, 35]  (Hits: 1/7, Rank: 51.2%)
   Step 8 Ticket  : [2, 3, 7, 9, 10, 14, 18]  (Hits: 1/7, Rank: 51.6%)
   Step 9 Ticket  : [3, 12, 21, 24, 26, 28, 34]  (Hits: 0/7, Rank: 67.5%)
-  Step 10 Ticket : [6, 12, 14, 18, 21, 28, 34]  (Hits: 0/7, Rank: 53.6%)
+  Step 10 Ticket : [6, 12, 14, 18, 21, 28, 34]  (Hits: 0/7, Rank: 54.0%)
   Step 11 Ticket : [3, 6, 12, 14, 18, 21, 34]  (Hits: 0/7, Rank: 52.0%)
   Step 14 Ticket : [3, 6, 12, 14, 18, 21, 34]  (Hits: 0/7, Rank: 56.0%)
   Step 14 14-Pool: [3, 5, 6, 7, 10, 11, 12, 14, 18, 21, 27, 28, 31, 34]  (Recall: 2/7 = 28.6%)
@@ -122,10 +122,10 @@ Holdout Draw 10/20 [2026-05-17] — Train Size: 165 draws
   Step 7 Ticket  : [2, 8, 15, 16, 21, 26, 35]  (Hits: 0/7, Rank: 55.6%)
   Step 8 Ticket  : [9, 14, 15, 25, 27, 31, 32]  (Hits: 2/7, Rank: 41.3%)
   Step 9 Ticket  : [3, 12, 16, 18, 22, 26, 27]  (Hits: 1/7, Rank: 41.3%)
-  Step 10 Ticket : [6, 10, 12, 14, 18, 21, 31]  (Hits: 3/7, Rank: 38.9%)
+  Step 10 Ticket : [12, 14, 18, 21, 28, 31, 34]  (Hits: 3/7, Rank: 37.3%)
   Step 11 Ticket : [6, 18, 21, 27, 29, 31, 34]  (Hits: 2/7, Rank: 38.5%)
-  Step 14 Ticket : [6, 12, 18, 21, 27, 31, 34]  (Hits: 2/7, Rank: 38.5%)
-  Step 14 14-Pool: [3, 5, 6, 9, 10, 12, 14, 18, 21, 22, 27, 29, 31, 34]  (Recall: 4/7 = 57.1%)
+  Step 14 Ticket : [6, 14, 18, 21, 27, 31, 34]  (Hits: 3/7, Rank: 37.3%)
+  Step 14 14-Pool: [3, 5, 6, 9, 12, 14, 18, 21, 22, 27, 29, 31, 33, 34]  (Recall: 5/7 = 71.4%)
   Step 15 Wheel  : 19 Tickets (Max Match: 4, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 11/20 [2026-05-24] — Train Size: 166 draws
@@ -134,11 +134,11 @@ Holdout Draw 11/20 [2026-05-24] — Train Size: 166 draws
   Step 7 Ticket  : [2, 8, 15, 16, 17, 23, 26]  (Hits: 1/7, Rank: 62.3%)
   Step 8 Ticket  : [3, 7, 20, 26, 28, 36, 37]  (Hits: 1/7, Rank: 55.2%)
   Step 9 Ticket  : [4, 6, 9, 12, 14, 21, 33]  (Hits: 2/7, Rank: 47.2%)
-  Step 10 Ticket : [5, 12, 14, 18, 20, 21, 31]  (Hits: 1/7, Rank: 40.5%)
+  Step 10 Ticket : [5, 12, 14, 18, 20, 21, 31]  (Hits: 1/7, Rank: 40.1%)
   Step 11 Ticket : [5, 14, 18, 21, 27, 31, 33]  (Hits: 2/7, Rank: 44.4%)
-  Step 14 Ticket : [5, 6, 14, 18, 21, 31, 33]  (Hits: 1/7, Rank: 42.9%)
-  Step 14 14-Pool: [3, 4, 5, 6, 9, 12, 14, 18, 20, 21, 27, 31, 33, 34]  (Recall: 4/7 = 57.1%)
-  Step 15 Wheel  : 19 Tickets (Max Match: 4, Match-3+ Win: YES)
+  Step 14 Ticket : [5, 6, 14, 18, 21, 31, 33]  (Hits: 1/7, Rank: 43.3%)
+  Step 14 14-Pool: [3, 5, 6, 9, 12, 14, 18, 20, 21, 27, 29, 31, 33, 34]  (Recall: 4/7 = 57.1%)
+  Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 12/20 [2026-05-31] — Train Size: 167 draws
   Actual Numbers : [4, 10, 24, 27, 31, 33, 36]
@@ -146,33 +146,33 @@ Holdout Draw 12/20 [2026-05-31] — Train Size: 167 draws
   Step 7 Ticket  : [2, 16, 17, 21, 23, 26, 36]  (Hits: 1/7, Rank: 53.2%)
   Step 8 Ticket  : [1, 4, 10, 12, 29, 30, 32]  (Hits: 2/7, Rank: 45.6%)
   Step 9 Ticket  : [9, 17, 18, 20, 27, 31, 33]  (Hits: 3/7, Rank: 36.5%)
-  Step 10 Ticket : [7, 14, 18, 20, 27, 31, 33]  (Hits: 3/7, Rank: 32.1%)
+  Step 10 Ticket : [9, 14, 18, 20, 27, 31, 33]  (Hits: 3/7, Rank: 32.1%)
   Step 11 Ticket : [9, 18, 20, 21, 27, 31, 33]  (Hits: 3/7, Rank: 36.1%)
-  Step 14 Ticket : [9, 18, 20, 21, 27, 31, 33]  (Hits: 3/7, Rank: 35.3%)
-  Step 14 14-Pool: [3, 5, 9, 12, 14, 18, 20, 21, 25, 27, 30, 31, 33, 34]  (Recall: 3/7 = 42.9%)
+  Step 14 Ticket : [9, 18, 20, 21, 27, 31, 33]  (Hits: 3/7, Rank: 34.5%)
+  Step 14 14-Pool: [4, 5, 9, 12, 14, 18, 20, 21, 25, 27, 30, 31, 33, 34]  (Recall: 4/7 = 57.1%)
   Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 13/20 [2026-06-07] — Train Size: 168 draws
   Actual Numbers : [1, 2, 11, 12, 21, 25, 28]
   Step 6 Ticket  : [7, 13, 16, 18, 21, 26, 29]  (Hits: 1/7, Rank: 43.3%)
-  Step 7 Ticket  : [2, 7, 16, 18, 26, 32, 37]  (Hits: 1/7, Rank: 54.4%)
+  Step 7 Ticket  : [2, 7, 16, 18, 26, 32, 37]  (Hits: 1/7, Rank: 54.0%)
   Step 8 Ticket  : [7, 18, 19, 20, 21, 28, 33]  (Hits: 2/7, Rank: 51.6%)
   Step 9 Ticket  : [4, 10, 18, 24, 27, 31, 33]  (Hits: 0/7, Rank: 65.9%)
-  Step 10 Ticket : [4, 14, 18, 20, 27, 31, 33]  (Hits: 0/7, Rank: 58.3%)
+  Step 10 Ticket : [14, 18, 20, 21, 27, 31, 33]  (Hits: 1/7, Rank: 53.2%)
   Step 11 Ticket : [4, 18, 20, 21, 27, 31, 33]  (Hits: 1/7, Rank: 56.0%)
-  Step 14 Ticket : [4, 18, 20, 21, 27, 31, 33]  (Hits: 1/7, Rank: 57.5%)
-  Step 14 14-Pool: [4, 5, 6, 9, 10, 14, 18, 20, 21, 24, 27, 30, 31, 33]  (Recall: 1/7 = 14.3%)
-  Step 15 Wheel  : 19 Tickets (Max Match: 1, Match-3+ Win: NO)
+  Step 14 Ticket : [4, 18, 20, 21, 27, 31, 33]  (Hits: 1/7, Rank: 56.3%)
+  Step 14 14-Pool: [4, 5, 9, 10, 14, 18, 20, 21, 24, 25, 27, 30, 31, 33]  (Recall: 2/7 = 28.6%)
+  Step 15 Wheel  : 19 Tickets (Max Match: 2, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
 Holdout Draw 14/20 [2026-06-14] — Train Size: 169 draws
   Actual Numbers : [5, 13, 18, 27, 28, 30, 36]
   Step 6 Ticket  : [6, 7, 10, 14, 18, 26, 34]  (Hits: 1/7, Rank: 64.7%)
-  Step 7 Ticket  : [7, 8, 16, 17, 26, 31, 32]  (Hits: 0/7, Rank: 63.1%)
+  Step 7 Ticket  : [7, 8, 16, 17, 26, 31, 32]  (Hits: 0/7, Rank: 61.5%)
   Step 8 Ticket  : [1, 3, 10, 13, 14, 24, 30]  (Hits: 2/7, Rank: 53.2%)
   Step 9 Ticket  : [1, 2, 10, 11, 12, 21, 27]  (Hits: 1/7, Rank: 49.2%)
-  Step 10 Ticket : [18, 20, 21, 25, 27, 31, 33]  (Hits: 2/7, Rank: 38.5%)
+  Step 10 Ticket : [18, 20, 21, 25, 27, 31, 33]  (Hits: 2/7, Rank: 38.9%)
   Step 11 Ticket : [12, 21, 25, 27, 28, 31, 33]  (Hits: 2/7, Rank: 35.3%)
-  Step 14 Ticket : [10, 12, 21, 25, 27, 31, 33]  (Hits: 1/7, Rank: 39.3%)
+  Step 14 Ticket : [10, 12, 21, 25, 27, 31, 33]  (Hits: 1/7, Rank: 37.7%)
   Step 14 14-Pool: [4, 9, 10, 11, 12, 14, 18, 20, 21, 25, 27, 28, 31, 33]  (Recall: 3/7 = 42.9%)
   Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ Holdout Draw 15/20 [2026-06-21] — Train Size: 170 draws
   Step 7 Ticket  : [7, 8, 16, 17, 21, 26, 32]  (Hits: 1/7, Rank: 58.7%)
   Step 8 Ticket  : [7, 11, 18, 20, 21, 28, 31]  (Hits: 0/7, Rank: 55.2%)
   Step 9 Ticket  : [7, 12, 16, 18, 25, 27, 28]  (Hits: 0/7, Rank: 65.1%)
-  Step 10 Ticket : [14, 21, 27, 28, 31, 33, 36]  (Hits: 0/7, Rank: 65.9%)
+  Step 10 Ticket : [5, 18, 21, 27, 28, 31, 33]  (Hits: 0/7, Rank: 62.3%)
   Step 11 Ticket : [5, 18, 21, 27, 28, 33, 36]  (Hits: 0/7, Rank: 55.2%)
   Step 14 Ticket : [18, 21, 27, 28, 31, 33, 36]  (Hits: 0/7, Rank: 61.1%)
   Step 14 14-Pool: [4, 5, 12, 13, 18, 20, 21, 25, 27, 28, 30, 31, 33, 36]  (Recall: 1/7 = 14.3%)
@@ -194,9 +194,9 @@ Holdout Draw 16/20 [2026-06-28] — Train Size: 171 draws
   Step 7 Ticket  : [7, 8, 16, 17, 23, 26, 35]  (Hits: 0/7, Rank: 49.2%)
   Step 8 Ticket  : [3, 8, 12, 14, 16, 30, 36]  (Hits: 1/7, Rank: 52.0%)
   Step 9 Ticket  : [1, 9, 12, 13, 14, 27, 31]  (Hits: 1/7, Rank: 40.5%)
-  Step 10 Ticket : [6, 9, 13, 18, 21, 27, 28]  (Hits: 2/7, Rank: 45.6%)
+  Step 10 Ticket : [6, 9, 13, 18, 21, 27, 28]  (Hits: 2/7, Rank: 46.8%)
   Step 11 Ticket : [1, 9, 13, 27, 28, 33, 36]  (Hits: 3/7, Rank: 34.9%)
-  Step 14 Ticket : [9, 13, 18, 21, 27, 28, 33]  (Hits: 3/7, Rank: 37.3%)
+  Step 14 Ticket : [9, 13, 18, 21, 27, 28, 33]  (Hits: 3/7, Rank: 37.7%)
   Step 14 14-Pool: [1, 5, 6, 9, 13, 18, 21, 25, 27, 28, 30, 31, 33, 36]  (Recall: 4/7 = 57.1%)
   Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
@@ -206,10 +206,10 @@ Holdout Draw 17/20 [2026-07-05] — Train Size: 172 draws
   Step 7 Ticket  : [7, 16, 17, 23, 26, 34, 37]  (Hits: 2/7, Rank: 42.5%)
   Step 8 Ticket  : [2, 7, 15, 24, 26, 27, 31]  (Hits: 3/7, Rank: 34.9%)
   Step 9 Ticket  : [3, 4, 21, 25, 27, 30, 35]  (Hits: 1/7, Rank: 42.5%)
-  Step 10 Ticket : [9, 14, 20, 21, 27, 28, 33]  (Hits: 2/7, Rank: 45.2%)
+  Step 10 Ticket : [9, 20, 21, 27, 28, 33, 36]  (Hits: 3/7, Rank: 44.0%)
   Step 11 Ticket : [9, 13, 20, 21, 27, 33, 36]  (Hits: 3/7, Rank: 42.1%)
-  Step 14 Ticket : [13, 18, 20, 21, 27, 33, 36]  (Hits: 3/7, Rank: 41.3%)
-  Step 14 14-Pool: [1, 5, 9, 13, 15, 18, 20, 21, 27, 28, 29, 31, 33, 36]  (Recall: 4/7 = 57.1%)
+  Step 14 Ticket : [13, 20, 21, 27, 28, 33, 36]  (Hits: 2/7, Rank: 42.1%)
+  Step 14 14-Pool: [1, 6, 9, 13, 15, 18, 20, 21, 27, 28, 29, 31, 33, 36]  (Recall: 4/7 = 57.1%)
   Step 15 Wheel  : 19 Tickets (Max Match: 4, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 18/20 [2026-07-12] — Train Size: 173 draws
@@ -218,10 +218,10 @@ Holdout Draw 18/20 [2026-07-12] — Train Size: 173 draws
   Step 7 Ticket  : [7, 8, 16, 22, 23, 34, 37]  (Hits: 3/7, Rank: 26.2%)
   Step 8 Ticket  : [1, 2, 8, 13, 19, 20, 32]  (Hits: 2/7, Rank: 39.7%)
   Step 9 Ticket  : [7, 9, 17, 18, 19, 24, 30]  (Hits: 1/7, Rank: 56.3%)
-  Step 10 Ticket : [9, 13, 18, 21, 24, 27, 36]  (Hits: 0/7, Rank: 59.1%)
+  Step 10 Ticket : [9, 13, 18, 21, 24, 27, 36]  (Hits: 0/7, Rank: 59.5%)
   Step 11 Ticket : [9, 18, 21, 24, 27, 33, 36]  (Hits: 0/7, Rank: 66.3%)
-  Step 14 Ticket : [9, 13, 18, 21, 27, 33, 36]  (Hits: 0/7, Rank: 61.5%)
-  Step 14 14-Pool: [1, 5, 9, 13, 15, 18, 20, 21, 24, 27, 28, 31, 33, 36]  (Recall: 2/7 = 28.6%)
+  Step 14 Ticket : [9, 18, 21, 24, 27, 33, 36]  (Hits: 0/7, Rank: 61.9%)
+  Step 14 14-Pool: [1, 3, 9, 13, 15, 18, 20, 21, 24, 27, 28, 31, 33, 36]  (Recall: 2/7 = 28.6%)
   Step 15 Wheel  : 19 Tickets (Max Match: 2, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
 Holdout Draw 19/20 [2026-07-19] — Train Size: 174 draws
@@ -230,10 +230,10 @@ Holdout Draw 19/20 [2026-07-19] — Train Size: 174 draws
   Step 7 Ticket  : [14, 16, 22, 23, 27, 35, 37]  (Hits: 1/7, Rank: 57.1%)
   Step 8 Ticket  : [5, 9, 22, 25, 29, 31, 33]  (Hits: 0/7, Rank: 61.5%)
   Step 9 Ticket  : [6, 12, 21, 27, 29, 31, 34]  (Hits: 2/7, Rank: 42.9%)
-  Step 10 Ticket : [7, 9, 14, 20, 27, 31, 36]  (Hits: 1/7, Rank: 50.0%)
+  Step 10 Ticket : [7, 9, 14, 20, 27, 31, 36]  (Hits: 1/7, Rank: 51.6%)
   Step 11 Ticket : [6, 9, 18, 20, 27, 31, 36]  (Hits: 1/7, Rank: 45.6%)
-  Step 14 Ticket : [9, 18, 20, 21, 27, 31, 36]  (Hits: 1/7, Rank: 48.4%)
-  Step 14 14-Pool: [6, 9, 10, 13, 18, 20, 21, 27, 28, 29, 31, 33, 34, 36]  (Recall: 3/7 = 42.9%)
+  Step 14 Ticket : [9, 18, 20, 21, 27, 31, 36]  (Hits: 1/7, Rank: 48.8%)
+  Step 14 14-Pool: [6, 7, 9, 10, 13, 18, 20, 21, 27, 28, 29, 31, 33, 36]  (Recall: 4/7 = 57.1%)
   Step 15 Wheel  : 19 Tickets (Max Match: 3, Match-3+ Win: YES)
 --------------------------------------------------------------------------------
 Holdout Draw 20/20 [2026-07-26] — Train Size: 175 draws
@@ -244,8 +244,8 @@ Holdout Draw 20/20 [2026-07-26] — Train Size: 175 draws
   Step 9 Ticket  : [1, 2, 7, 10, 21, 27, 29]  (Hits: 1/7, Rank: 48.8%)
   Step 10 Ticket : [6, 7, 9, 13, 20, 21, 27]  (Hits: 0/7, Rank: 61.5%)
   Step 11 Ticket : [6, 7, 13, 20, 21, 27, 36]  (Hits: 0/7, Rank: 52.0%)
-  Step 14 Ticket : [6, 7, 13, 20, 21, 27, 36]  (Hits: 0/7, Rank: 54.8%)
-  Step 14 14-Pool: [1, 2, 6, 7, 9, 10, 13, 18, 20, 21, 27, 31, 33, 36]  (Recall: 2/7 = 28.6%)
+  Step 14 Ticket : [6, 7, 13, 20, 21, 27, 36]  (Hits: 0/7, Rank: 56.0%)
+  Step 14 14-Pool: [1, 6, 7, 9, 10, 13, 18, 20, 21, 24, 27, 31, 33, 36]  (Recall: 2/7 = 28.6%)
   Step 15 Wheel  : 19 Tickets (Max Match: 2, Match-3+ Win: NO)
 --------------------------------------------------------------------------------
 
@@ -258,12 +258,12 @@ FINAL MASTER ENSEMBLE CALIBRATION & SYNTHESIS REPORT (MEGA7)
   • Step 7 4-Phase Markov         : 1.450 matches / draw (Rank: 50.1%)
   • Step 8 MLP Neural Net         : 1.350 matches / draw (Rank: 51.4%)
   • Step 9 Ultra Stacking         : 1.100 matches / draw (Rank: 50.5%)
-  • Step 10 Quantum Engine        : 1.450 matches / draw (Rank: 49.0%)
+  • Step 10 Quantum Engine        : 1.500 matches / draw (Rank: 48.7%)
   • Step 11 BlackRock Quant V2    : 1.450 matches / draw (Rank: 47.3%)
-  • Step 14 Master AI Meta V3     : 1.450 matches / draw (Rank: 48.1%) ★ BEST MATCH RATE ★
+  • Step 14 Master AI Meta V3     : 1.500 matches / draw (Rank: 48.2%) ★ BEST MATCH RATE ★
 
 Candidate Pool & Wheeling Performance (Step 14 & 15):
-  • 14-Ball Candidate Pool Coverage: 2.700 / 7 winning balls (38.6%)
+  • 14-Ball Candidate Pool Coverage: 2.900 / 7 winning balls (41.4%)
   • Step 15 Set-Cover Wheel Win Rate: 55.0% Match-3+ Guarantee Rate
 
 Optimized Code Configurations (DEFAULT_WEIGHTS Calibrated):

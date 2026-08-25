@@ -184,14 +184,14 @@ def phase4_feedback_loop(df, base_prob: np.ndarray, lookback: int = 5) -> np.nda
     avg_low  = recent["n_low"].mean()
     balance_pattern = "NONE"
 
-    if avg_high > 4.0:
-        correction[:10] *= 1.10       # Z1
-        correction[10:20] *= 1.05     # Z2
-        balance_pattern = f"HIGH BIAS (avg {avg_high:.1f} high nums/draw) -> boosting low zones"
-    elif avg_low > 4.0:
-        correction[20:30] *= 1.05     # Z3
-        correction[30:] *= 1.10       # Z4
-        balance_pattern = f"LOW BIAS (avg {avg_low:.1f} low nums/draw) -> boosting high zones"
+    if avg_high > 5.0:
+        correction[:10] *= 1.05       # Z1
+        correction[10:20] *= 1.03     # Z2
+        balance_pattern = f"HIGH BIAS (avg {avg_high:.1f} high nums/draw) -> mild boost to low zones"
+    elif avg_low > 5.0:
+        correction[20:30] *= 1.03     # Z3
+        correction[30:] *= 1.05       # Z4
+        balance_pattern = f"LOW BIAS (avg {avg_low:.1f} low nums/draw) -> mild boost to high zones"
 
     adjusted = base_prob * correction
     if adjusted.sum() == 0:
@@ -222,7 +222,7 @@ def diversity_select(scores: np.ndarray, k: int = 7,
     """
     Select k numbers from the top 'candidate_pool' by ensemble score,
     enforcing:
-      1. ZONE COVERAGE — at least 3 of 4 zones represented
+      1. ZONE COVERAGE — at least 2 of 4 zones represented
       2. ANTI-CLUSTERING — at most 1 consecutive pair (gap >= 2)
     """
     ranked = np.argsort(scores)[::-1][:candidate_pool]
@@ -241,7 +241,7 @@ def diversity_select(scores: np.ndarray, k: int = 7,
             continue
 
         zones_hit = len(set((n-1)//10 for n in ticket))
-        if zones_hit < 3:
+        if zones_hit < 2:
             continue
 
         total_score = sum(candidate_scores[n] for n in ticket)

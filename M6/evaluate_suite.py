@@ -234,13 +234,15 @@ def run_evaluation(test_window: int = 20):
                     break
         s11_wheel_wins.append(wheel_win11)
 
-        # Step 12
-        signals_dict12 = mod12.harvest_all_signals(train_df)
-        probas12, _, _ = mod12.meta_ai_blend(signals_dict12, df=train_df)
+        # Step 14 (Master AI Meta-Ensemble)
+        signals_dict14 = mod14.harvest_all_signals(train_df)
+        probas12, _, _ = mod14.meta_ai_blend(signals_dict14, df=train_df)
 
-        top6_12_set   = set((np.argsort(probas12)[::-1][:DRAW_SIZE] + 1).tolist())
         top14_12_list = sorted((np.argsort(probas12)[::-1][:14] + 1).tolist())
         top14_12_set  = set(top14_12_list)
+
+        top6_12_ticket = mod14.select_optimal_ticket(top14_12_list, probas12, ticket_size=DRAW_SIZE, df=train_df)
+        top6_12_set   = set(top6_12_ticket)
 
         m14_count12 = len(top14_12_set & actual_set)
         s12_top6_matches.append(len(top6_12_set & actual_set))

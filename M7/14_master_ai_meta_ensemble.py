@@ -110,6 +110,8 @@ def harvest_all_signals(df):
     # Step 10
     spec10 = importlib.util.spec_from_file_location("mod10", "10_advanced_quantum_signal_engine.py")
     mod10 = importlib.util.module_from_spec(spec10); spec10.loader.exec_module(mod10)
+    sig_fft10 = mod10.signal_fft_spectral(df)
+    sig_maxent10 = mod10.signal_maxent_entropy(df)
     best_w10, sigs10 = mod10.genetic_optimize_weights(df, n_generations=15, pop_size=10)
     p10_quantum = sum(best_w10[k] * sigs10[k] for k in range(4))
     p10_quantum /= p10_quantum.sum()
@@ -147,6 +149,8 @@ def harvest_all_signals(df):
         "17. Hot/Cold Momentum": sig_mom,
         "18. GNN Relational Net": sig_gnn,
         "19. Hawkes-Jump Process": sig_hawkes_jump,
+        "20. FFT Spectral Resonance": sig_fft10,
+        "21. MaxEnt Entropy": sig_maxent10,
     }
     return signals_dict
 
@@ -180,9 +184,9 @@ def meta_ai_blend(signals_dict, df=None):
 def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_size: int = DRAW_SIZE, df=None) -> list[int]:
     """
     Selects the highest-probability 7-ball ticket from top_pool constrained by:
-    1. Sum inside ideal range [105, 165] around mean 133
-    2. Adaptive Low (<=18) / High (>18) split
-    3. Multi-zone representation (at least 3 zones)
+    1. Dynamic EVT sum range [70, 190] around mean ~133
+    2. Adaptive Low (<=18) / High (>18) continuous balance scoring
+    3. Multi-zone representation (at least 2 zones)
     4. Anti-clustering filter (max 2 balls from top-3 over-saturated frequency balls)
     """
     top3_freq = set(np.argsort(prob_vector)[::-1][:3] + 1)
@@ -199,17 +203,14 @@ def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_s
 
     for comb in itertools.combinations(top_pool, ticket_size):
         comb_sum = sum(comb)
-        if not (100 <= comb_sum <= 170):
+        if not (70 <= comb_sum <= 190):
             continue
         n_low = sum(1 for n in comb if n <= 18)
         n_high = ticket_size - n_low
         n_odd = sum(1 for n in comb if n % 2 != 0)
         
-        if n_low < 1 or n_high < 1:
-            continue
-            
         zones = set(0 if n <= 10 else 1 if n <= 20 else 2 if n <= 30 else 3 for n in comb)
-        if len(zones) < 3:
+        if len(zones) < 2:
             continue
         if sum(1 for n in comb if n in top3_freq) > 2:
             continue
@@ -218,7 +219,7 @@ def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_s
         
         dist_low = abs(n_low - target_low_count)
         dist_odd = abs(n_odd - target_odd_count)
-        balance_multiplier = 1.0 - (dist_low * 0.05 + dist_odd * 0.05)
+        balance_multiplier = max(0.50, 1.0 - (dist_low * 0.04 + dist_odd * 0.03))
         
         score = base_prob * balance_multiplier
         if score > best_score:

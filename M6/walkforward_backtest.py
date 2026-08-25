@@ -147,8 +147,8 @@ ITERATION LOGS (WALK-FORWARD PROGRESSION)
         top6_11 = sorted((np.argsort(prob11)[::-1][:DRAW_SIZE] + 1).tolist())
         pool14_11 = sorted((np.argsort(prob11)[::-1][:14] + 1).tolist())
 
-        top6_12 = sorted((np.argsort(prob12)[::-1][:DRAW_SIZE] + 1).tolist())
         pool14_12 = sorted((np.argsort(prob12)[::-1][:14] + 1).tolist())
+        top6_12 = mod14.select_optimal_ticket(pool14_12, prob12, ticket_size=DRAW_SIZE, df=active_df)
 
         # Step 13 Wheel on Step 12 14-Ball Candidate Pool
         wheel_tickets = generate_covering_wheel(pool14_12, ticket_size=DRAW_SIZE, match_guarantee=3)

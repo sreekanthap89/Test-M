@@ -76,6 +76,45 @@ def compute_structural_stats(numbers: list) -> dict:
     }
 
 
+def select_improved_ticket(candidate_pool: list[int], prob_vector: np.ndarray, df: pd.DataFrame, ticket_size: int = DRAW_SIZE) -> list[int]:
+    """Choose a ticket by blending probability rank, recent pool coverage, and diversity."""
+    if len(candidate_pool) < ticket_size:
+        return sorted(candidate_pool)
+
+    candidates = np.array(candidate_pool)
+    scores = np.zeros(len(candidates), dtype=float)
+    probs = prob_vector[candidates - 1]
+    scores += probs / probs.max() if probs.max() > 0 else np.ones(len(candidates))
+
+    recent_numbers = []
+    if len(df) > 1:
+        recent_numbers = [int(n) for row in df.tail(5)["numbers"] for n in row]
+    recent_counter = pd.Series(recent_numbers).value_counts().to_dict()
+    for idx, number in enumerate(candidates):
+        scores[idx] += 0.15 * recent_counter.get(int(number), 0)
+
+    # Encourage diversity by penalizing clusters of adjacent numbers.
+    for idx, number in enumerate(candidates):
+        scores[idx] += 0.05 * sum(1 for other in candidates if abs(int(other) - int(number)) <= 2)
+
+    ranked = candidates[np.argsort(scores)[::-1]]
+    chosen = []
+    for number in ranked:
+        if len(chosen) >= ticket_size:
+            break
+        if number not in chosen:
+            chosen.append(int(number))
+
+    if len(chosen) < ticket_size:
+        for number in candidates:
+            if len(chosen) >= ticket_size:
+                break
+            if int(number) not in chosen:
+                chosen.append(int(number))
+
+    return sorted(chosen[:ticket_size])
+
+
 def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
     """
     Runs the multi-step prediction engine on the provided dataframe for MEGA7.
@@ -165,7 +204,7 @@ def predict_for_dataset(df: pd.DataFrame, custom_weights: dict = None) -> dict:
     step11_ticket = sorted((np.argsort(p11_blackrock)[::-1][:DRAW_SIZE] + 1).tolist())
     
     meta_top14_pool  = sorted((np.argsort(meta_prob)[::-1][:14] + 1).tolist())
-    meta_top7_ticket = mod14.select_optimal_ticket(meta_top14_pool, meta_prob, ticket_size=DRAW_SIZE, df=df)
+    meta_top7_ticket = select_improved_ticket(meta_top14_pool, meta_prob, df=df, ticket_size=DRAW_SIZE)
 
     return {
         "signals_dict": signals_dict,

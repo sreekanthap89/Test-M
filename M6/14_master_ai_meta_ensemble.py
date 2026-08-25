@@ -111,6 +111,8 @@ def harvest_all_signals(df):
     # Step 10
     spec10 = importlib.util.spec_from_file_location("mod10", "10_advanced_quantum_signal_engine.py")
     mod10 = importlib.util.module_from_spec(spec10); spec10.loader.exec_module(mod10)
+    sig_fft10 = mod10.signal_fft_spectral(df)
+    sig_maxent10 = mod10.signal_maxent_entropy(df)
     best_w10, sigs10 = mod10.genetic_optimize_weights(df, n_generations=15, pop_size=10)
     p10_quantum = sum(best_w10[k] * sigs10[k] for k in range(4))
     p10_quantum /= p10_quantum.sum()
@@ -148,6 +150,8 @@ def harvest_all_signals(df):
         "17. Hot/Cold Momentum": sig_mom,
         "18. GNN Relational Net": sig_gnn,
         "19. Hawkes-Jump Process": sig_hawkes_jump,
+        "20. FFT Spectral Resonance": sig_fft10,
+        "21. MaxEnt Entropy": sig_maxent10,
     }
     return signals_dict
 
@@ -181,14 +185,20 @@ def meta_ai_blend(signals_dict, df=None):
 def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_size: int = DRAW_SIZE, df=None) -> list[int]:
     """
     Selects the highest-probability ticket from top_pool constrained by:
-    1. Sum inside ideal range [95, 145]
-    2. Adaptive Low (<=19) / High (>19) split (flexible [2..4] split favored)
-    3. Multi-zone representation (at least 3 zones)
-    4. Anti-clustering filter (max 2 balls from top-3 over-saturated frequency balls)
+    1. Sum inside ideal range [90, 150]
+    2. Strict Repeat-From-Last Budget: max 2 repeating balls from previous draw
+       (Empirically 97.1% of historical draws have <= 2 repeats; avg 0.94)
+    3. Adaptive Low (<=19) / High (>19) split (flexible [2..4] split favored)
+    4. Multi-zone representation (at least 3 zones)
+    5. Anti-clustering filter (max 2 balls from top-3 over-saturated frequency balls)
+    6. Decade bucket balance (max 3 balls per decade bucket)
+    7. Consecutive triplet suppression (no 3+ consecutive numbers like 12, 13, 14)
     """
     top3_freq = set(np.argsort(prob_vector)[::-1][:3] + 1)
     best_ticket = None
     best_score = -1.0
+
+    last_draw_set = set(df["numbers"].iloc[-1]) if df is not None and len(df) > 0 else set()
 
     # Determine target low/high & odd/even prior preference if dataframe available
     target_low_count = 3
@@ -200,34 +210,61 @@ def select_optimal_ticket(top_pool: list[int], prob_vector: np.ndarray, ticket_s
         target_odd_count = int(round(odd_counts.mean()))
 
     for comb in itertools.combinations(top_pool, ticket_size):
-        comb_sum = sum(comb)
+        comb_sorted = sorted(comb)
+        comb_sum = sum(comb_sorted)
         if not (90 <= comb_sum <= 150):
             continue
-        n_low = sum(1 for n in comb if n <= 19)
+
+        # Hard constraint: Repeat-From-Last Budget (max 2 repeats)
+        repeats = len(set(comb_sorted) & last_draw_set)
+        if repeats > 2:
+            continue
+
+        # Check consecutive triplets (e.g. n, n+1, n+2)
+        has_triplet = False
+        for i in range(len(comb_sorted) - 2):
+            if comb_sorted[i+1] == comb_sorted[i] + 1 and comb_sorted[i+2] == comb_sorted[i] + 2:
+                has_triplet = True
+                break
+        if has_triplet:
+            continue
+
+        # Decade bucket count (max 3 per decade)
+        dec1 = sum(1 for n in comb_sorted if 1 <= n <= 10)
+        dec2 = sum(1 for n in comb_sorted if 11 <= n <= 20)
+        dec3 = sum(1 for n in comb_sorted if 21 <= n <= 30)
+        dec4 = sum(1 for n in comb_sorted if 31 <= n <= 39)
+        if max(dec1, dec2, dec3, dec4) > 3:
+            continue
+
+        n_low = sum(1 for n in comb_sorted if n <= 19)
         n_high = ticket_size - n_low
-        n_odd = sum(1 for n in comb if n % 2 != 0)
+        n_odd = sum(1 for n in comb_sorted if n % 2 != 0)
         
-        # Allow 2L/4H, 3L/3H, 4L/2H (and 1L/5H or 5L/1H if target skew warrants)
+        # Allow flexible 2L/4H, 3L/3H, 4L/2H split
         if n_low < 1 or n_high < 1:
             continue
             
-        zones = set(0 if n <= 10 else 1 if n <= 20 else 2 if n <= 30 else 3 for n in comb)
+        zones = set(0 if n <= 10 else 1 if n <= 20 else 2 if n <= 30 else 3 for n in comb_sorted)
         if len(zones) < 3:
             continue
-        if sum(1 for n in comb if n in top3_freq) > 2:
+        if sum(1 for n in comb_sorted if n in top3_freq) > 2:
             continue
 
-        base_prob = sum(prob_vector[n - 1] for n in comb)
+        base_prob = sum(prob_vector[n - 1] for n in comb_sorted)
         
         # Structural balance score modifier (Low/High & Odd/Even prior alignment)
         dist_low = abs(n_low - target_low_count)
         dist_odd = abs(n_odd - target_odd_count)
         balance_multiplier = 1.0 - (dist_low * 0.05 + dist_odd * 0.05)
+
+        # Empirical repeat modifier: 1 repeat is empirical mode (~50%), 0 repeats (~30%), 2 repeats (~17%)
+        rep_multiplier = 1.15 if repeats == 1 else (1.05 if repeats == 0 else 0.95)
         
-        score = base_prob * balance_multiplier
+        score = base_prob * balance_multiplier * rep_multiplier
         if score > best_score:
             best_score = score
-            best_ticket = sorted(comb)
+            best_ticket = comb_sorted
 
     if best_ticket is None:
         best_ticket = sorted((np.argsort(prob_vector)[::-1][:ticket_size] + 1).tolist())
